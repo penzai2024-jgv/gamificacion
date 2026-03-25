@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taller: Del Papel a la Pantalla 🚀</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f1a;
+    --surface: #151829;
+    --card: #1c2035;
+    --border: #2a3050;
+    --accent1: #f7c948;
+    --accent2: #4af0b0;
+    --accent3: #ff6b6b;
+    --accent4: #7b8cff;
+    --text: #e8eaf6;
+    --muted: #8890b0;
+    --xp-color: #f7c948;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── STARS BG ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(247,201,72,.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, rgba(74,240,176,.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 15%, rgba(123,140,255,.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 75%, rgba(255,107,107,.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 90%, rgba(247,201,72,.3) 0%, transparent 100%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    background: linear-gradient(135deg, #1a1e35 0%, #0f1525 100%);
+    border-bottom: 2px solid var(--border);
+    padding: 24px 40px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+  }
+  .header-left h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 800;
+    color: var(--accent1);
+    line-height: 1.1;
+  }
+  .header-left p { color: var(--muted); font-size: .9rem; margin-top: 4px; }
+  .badge-sena {
+    background: linear-gradient(135deg, var(--accent4), #4af0b0);
+    color: #0d0f1a;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: .75rem;
+    padding: 6px 14px;
+    border-radius: 100px;
+    letter-spacing: .05em;
+    white-space: nowrap;
+  }
+
+  /* ── XP BAR ── */
+  .xp-bar-wrap {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 40px;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    position: sticky; top: 0; z-index: 20;
+  }
+  .xp-label { font-family: 'Syne', sans-serif; font-size: .8rem; font-weight: 700; color: var(--accent1); white-space: nowrap; }
+  .xp-track {
+    flex: 1; min-width: 120px; height: 10px;
+    background: var(--border); border-radius: 999px; overflow: hidden;
+  }
+  .xp-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    border-radius: 999px;
+    transition: width .6s cubic-bezier(.4,0,.2,1);
+  }
+  .xp-points {
+    font-family: 'Syne', sans-serif; font-size: .85rem; font-weight: 700;
+    color: var(--accent1); white-space: nowrap;
+  }
+  .level-badge {
+    background: var(--card); border: 1px solid var(--accent1);
+    color: var(--accent1); font-family: 'Syne', sans-serif;
+    font-size: .75rem; font-weight: 800;
+    padding: 4px 12px; border-radius: 100px;
+  }
+  .trophy-strip {
+    display: flex; gap: 8px; align-items: center;
+  }
+  .trophy { font-size: 1.2rem; opacity: .3; transition: opacity .4s, transform .4s; }
+  .trophy.earned { opacity: 1; transform: scale(1.15); }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 900px; margin: 0 auto;
+    padding: 40px 20px 80px;
+    position: relative; z-index: 5;
+  }
+
+  /* ── SECTION BLOCKS ── */
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .section::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .section.s1::before { background: linear-gradient(90deg, var(--accent1), var(--accent2)); }
+  .section.s2::before { background: linear-gradient(90deg, var(--accent2), var(--accent4)); }
+  .section.s3::before { background: linear-gradient(90deg, var(--accent4), var(--accent3)); }
+  .section.s4::before { background: linear-gradient(90deg, var(--accent3), var(--accent1)); }
+  .section.s5::before { background: linear-gradient(90deg, var(--accent2), var(--accent3)); }
+
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 100px;
+    margin-bottom: 14px;
+  }
+  .tag-yellow { background: rgba(247,201,72,.15); color: var(--accent1); border: 1px solid rgba(247,201,72,.3); }
+  .tag-green  { background: rgba(74,240,176,.12); color: var(--accent2); border: 1px solid rgba(74,240,176,.3); }
+  .tag-blue   { background: rgba(123,140,255,.15); color: var(--accent4); border: 1px solid rgba(123,140,255,.3); }
+  .tag-red    { background: rgba(255,107,107,.12); color: var(--accent3); border: 1px solid rgba(255,107,107,.3); }
+
+  .section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+    font-weight: 800;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .section p, .section li {
+    color: #c0c8e0;
+    font-size: .95rem;
+    line-height: 1.7;
+  }
+  .section ul { padding-left: 20px; }
+  .section li { margin-bottom: 6px; }
+
+  /* ── RECAP BOX ── */
+  .recap {
+    background: rgba(247,201,72,.07);
+    border: 1px solid rgba(247,201,72,.2);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .recap-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .recap p { font-size: .9rem; color: #d4d8f0; }
+
+  /* ── TOOLS GRID ── */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 20px;
+  }
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 16px;
+    text-align: center;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+    cursor: default;
+    position: relative;
+  }
+  .tool-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent4);
+    box-shadow: 0 8px 30px rgba(123,140,255,.2);
+  }
+  .tool-icon { font-size: 2rem; display: block; margin-bottom: 8px; }
+  .tool-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: .9rem;
+    color: var(--text); display: block; margin-bottom: 4px;
+  }
+  .tool-desc { font-size: .78rem; color: var(--muted); }
+  .tool-free {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(74,240,176,.15);
+    color: var(--accent2);
+    font-size: .65rem; font-weight: 700;
+    padding: 2px 7px; border-radius: 100px;
+  }
+  .tool-link {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: .75rem;
+    color: var(--accent4);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .tool-link:hover { text-decoration: underline; }
+
+  /* ── MISION CARDS ── */
+  .mision-list { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
+  .mision {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex; align-items: flex-start; gap: 16px;
+    transition: border-color .3s;
+    cursor: pointer;
+  }
+  .mision:hover { border-color: var(--accent2); }
+  .mision.done { border-color: var(--accent2); background: rgba(74,240,176,.05); }
+  .mision-num {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 1.4rem; color: var(--accent4);
+    flex-shrink: 0; width: 36px;
+  }
+  .mision.done .mision-num { color: var(--accent2); }
+  .mision-body { flex: 1; }
+  .mision-body h4 {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: .95rem; margin-bottom: 4px;
+  }
+  .mision-body p { font-size: .85rem; color: var(--muted); }
+  .mision-xp {
+    font-family: 'Syne', sans-serif; font-size: .8rem;
+    font-weight: 700; color: var(--accent1);
+    white-space: nowrap; flex-shrink: 0;
+    padding: 4px 10px;
+    background: rgba(247,201,72,.1);
+    border-radius: 100px;
+    border: 1px solid rgba(247,201,72,.2);
+  }
+  .mision-check {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .9rem; flex-shrink: 0;
+    transition: all .3s;
+  }
+  .mision.done .mision-check {
+    background: var(--accent2); border-color: var(--accent2); color: #0d0f1a;
+  }
+
+  /* ── VIDEO EMBED ── */
+  .video-wrap {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2px solid var(--border);
+    margin: 20px 0;
+    aspect-ratio: 16/9;
+    background: #000;
+  }
+  .video-wrap iframe {
+    width: 100%; height: 100%;
+    display: block;
+  }
+
+  /* ── QUIZ ── */
+  .quiz-container { margin-top: 24px; }
+  .quiz-question {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    transition: border-color .3s;
+  }
+  .quiz-question.answered { border-color: var(--accent4); }
+  .quiz-q-text {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: .95rem; margin-bottom: 14px;
+    color: var(--text);
+  }
+  .quiz-q-num {
+    font-size: .75rem; color: var(--accent4);
+    font-weight: 600; display: block; margin-bottom: 6px;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 16px;
+    cursor: pointer;
+    font-size: .88rem;
+    color: var(--text);
+    text-align: left;
+    transition: all .2s;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .quiz-opt:hover:not(:disabled) {
+    border-color: var(--accent4);
+    background: rgba(123,140,255,.1);
+  }
+  .quiz-opt.correct { background: rgba(74,240,176,.15); border-color: var(--accent2); color: #b0fff0; }
+  .quiz-opt.wrong   { background: rgba(255,107,107,.12); border-color: var(--accent3); color: #ffb0b0; }
+  .quiz-opt:disabled { cursor: default; }
+  .opt-letter {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--border); color: var(--muted);
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: .75rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .quiz-feedback {
+    margin-top: 10px; padding: 10px 14px;
+    border-radius: 8px; font-size: .85rem;
+    display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok { background: rgba(74,240,176,.12); color: var(--accent2); }
+  .quiz-feedback.ko { background: rgba(255,107,107,.1); color: var(--accent3); }
+
+  .quiz-result {
+    display: none;
+    background: var(--surface);
+    border: 2px solid var(--accent1);
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  .quiz-result.show { display: block; }
+  .quiz-result .score-big {
+    font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800;
+    color: var(--accent1); line-height: 1;
+  }
+  .quiz-result p { margin-top: 8px; color: var(--muted); }
+  .quiz-result .xp-earned {
+    margin-top: 12px;
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    color: var(--accent2); font-size: 1.1rem;
+  }
+
+  .btn {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    border: none; border-radius: 10px;
+    padding: 12px 24px; cursor: pointer;
+    font-size: .9rem;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent1), #e8a800);
+    color: #0d0f1a;
+    box-shadow: 0 4px 20px rgba(247,201,72,.3);
+  }
+  .btn-primary:hover { box-shadow: 0 6px 28px rgba(247,201,72,.5); }
+  .btn-ghost {
+    background: transparent; color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--accent4); color: var(--accent4); }
+
+  /* ── METHODOLOGY ── */
+  .method-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px; margin-top: 18px;
+  }
+  .method-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+  }
+  .method-card .m-icon { font-size: 2rem; display: block; margin-bottom: 8px; }
+  .method-card h4 {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: .85rem; color: var(--text); margin-bottom: 4px;
+  }
+  .method-card p { font-size: .78rem; color: var(--muted); line-height: 1.5; }
+
+  /* ── ENTREGABLE BOX ── */
+  .entregable {
+    background: linear-gradient(135deg, rgba(123,140,255,.12), rgba(74,240,176,.08));
+    border: 1px solid rgba(123,140,255,.3);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-top: 18px;
+  }
+  .entregable h4 {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    color: var(--accent4); font-size: 1rem; margin-bottom: 10px;
+  }
+  .entregable ol { padding-left: 20px; }
+  .entregable li { font-size: .9rem; color: #c0c8e0; margin-bottom: 6px; line-height: 1.6; }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed; bottom: 30px; right: 30px;
+    background: var(--card); border: 1px solid var(--accent2);
+    border-radius: 14px; padding: 14px 20px;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 100;
+    transform: translateY(80px); opacity: 0;
+    transition: all .4s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+    max-width: 300px;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+  #toast-icon { font-size: 1.5rem; }
+  #toast-text { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .85rem; color: var(--accent2); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 30px 20px;
+    color: var(--muted); font-size: .8rem;
+    border-top: 1px solid var(--border);
+    position: relative; z-index: 5;
+  }
+
+  /* ── ANIMATE IN ── */
+  .section { animation: fadeUp .5s ease both; }
+  .section:nth-child(1) { animation-delay: .05s; }
+  .section:nth-child(2) { animation-delay: .12s; }
+  .section:nth-child(3) { animation-delay: .19s; }
+  .section:nth-child(4) { animation-delay: .26s; }
+  .section:nth-child(5) { animation-delay: .33s; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .divider {
+    border: none; border-top: 1px solid var(--border);
+    margin: 20px 0;
+  }
+
+  .timer-bar {
+    height: 4px; background: var(--border); border-radius: 2px;
+    margin-top: 14px; overflow: hidden;
+  }
+  .timer-fill {
+    height: 100%; width: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent4));
+    border-radius: 2px;
+    transition: width linear;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 16px 18px; }
+    .xp-bar-wrap { padding: 10px 18px; }
+    main { padding: 24px 14px 60px; }
+    .section { padding: 22px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-left">
+    <h1>🚀 Del Papel a la Pantalla</h1>
+    <p>Taller 2 · Prototipado Digital Web · Ficha 3140092 Noche · Inst. Juan Viveros</p>
+  </div>
+  <span class="badge-sena">SENA · FICHA 3140092 · NOCHE</span>
+</header>
+
+<!-- XP BAR -->
+<div class="xp-bar-wrap">
+  <span class="level-badge" id="level-label">Nv. 1</span>
+  <span class="xp-label">XP</span>
+  <div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div>
+  <span class="xp-points" id="xp-points">0 / 500 XP</span>
+  <div class="trophy-strip">
+    <span class="trophy" id="t1" title="Explorador">🔍</span>
+    <span class="trophy" id="t2" title="Constructor">🛠️</span>
+    <span class="trophy" id="t3" title="Maestro del Quiz">🧠</span>
+    <span class="trophy" id="t4" title="Prototipador">🎨</span>
+    <span class="trophy" id="t5" title="Campeón">🏆</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- ── SECCIÓN 1: CONTEXTUALIZACIÓN ── -->
+  <div class="section s1">
+    <span class="section-tag tag-yellow">⚡ Punto de partida · +20 XP</span>
+    <h2>¿Dónde quedamos? 📋</h2>
+    <div class="recap">
+      <span class="recap-icon">✏️</span>
+      <p>En la sesión anterior ideamos nuestro <strong>Proyecto Formativo Web para MiPymes en el Tolima</strong>. Cada equipo dibujó a mano bocetos de las pantallas principales: portada, servicios, galería y contacto. ¡Esos bocetos son el mapa de nuestra próxima misión!</p>
+    </div>
+    <p>Hoy damos el salto: de esos trazos en papel vamos a construir un <strong>prototipo digital de alta fidelidad</strong> usando herramientas gratuitas. Al final de la sesión tendrás un prototipo navegable listo para presentar.</p>
+
+    <hr class="divider">
+
+    <p><strong>Objetivo de aprendizaje:</strong> Digitalizar bocetos web usando herramientas de prototipado, aplicando principios de UX/UI y trabajo colaborativo.</p>
+
+    <button class="btn btn-primary" style="margin-top:18px" onclick="earnXP(20,'t1','🔍 ¡Explorador desbloqueado!')">
+      ✅ ¡Ya lo leí! Ganar 20 XP
+    </button>
+  </div>
+
+  <!-- ── SECCIÓN 2: METODOLOGÍA ── -->
+  <div class="section s2">
+    <span class="section-tag tag-green">🎯 Metodología activa</span>
+    <h2>¿Cómo vamos a trabajar hoy?</h2>
+    <p>Esta sesión usa <strong>Aprendizaje Basado en Proyectos (ABP)</strong> combinado con elementos de <strong>gamificación</strong>. Cada actividad suma puntos de experiencia (XP) que acumulan logros desbloqueables.</p>
+
+    <div class="method-grid">
+      <div class="method-card">
+        <span class="m-icon">🧩</span>
+        <h4>ABP</h4>
+        <p>El prototipo de tu sitio web es el producto real de aprendizaje</p>
+      </div>
+      <div class="method-card">
+        <span class="m-icon">🤝</span>
+        <h4>Trabajo en pares</h4>
+        <p>Diseña con un compañero usando la técnica de <em>Driver / Navigator</em></p>
+      </div>
+      <div class="method-card">
+        <span class="m-icon">🔄</span>
+        <h4>Iteración rápida</h4>
+        <p>Construye → Muéstraselo al instructor → Ajusta en 5 min</p>
+      </div>
+      <div class="method-card">
+        <span class="m-icon">🏅</span>
+        <h4>Gamificación</h4>
+        <p>XP, niveles y logros por cada misión completada</p>
+      </div>
+      <div class="method-card">
+        <span class="m-icon">💬</span>
+        <h4>Feedback entre pares</h4>
+        <p>Cada equipo da 1 elogio + 1 sugerencia al equipo vecino</p>
+      </div>
+      <div class="method-card">
+        <span class="m-icon">⏱️</span>
+        <h4>Timeboxing</h4>
+        <p>Bloques de 15 minutos para mantener el ritmo y foco</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECCIÓN 3: HERRAMIENTAS ── -->
+  <div class="section s3">
+    <span class="section-tag tag-blue">🛠️ Herramientas · +40 XP</span>
+    <h2>Apps gratuitas para prototipar 🎨</h2>
+    <p>No necesitas pagar nada. Estas herramientas tienen planes gratuitos robustos, ideales para aprender a prototipar:</p>
+
+    <div class="tools-grid">
+
+      <div class="tool-card">
+        <span class="tool-free">FREE</span>
+        <span class="tool-icon">🎨</span>
+        <span class="tool-name">Figma</span>
+        <p class="tool-desc">La estándar de la industria. Colaboración en tiempo real, componentes y prototipos navegables.</p>
+        <a class="tool-link" href="https://figma.com" target="_blank">↗ figma.com</a>
+      </div>
+
+      <div class="tool-card">
+        <span class="tool-free">OPEN SOURCE</span>
+        <span class="tool-icon">🐧</span>
+        <span class="tool-name">Penpot</span>
+        <p class="tool-desc">Alternativa 100% de código abierto a Figma. Sin límite de proyectos. Ideal para el SENA.</p>
+        <a class="tool-link" href="https://penpot.app" target="_blank">↗ penpot.app</a>
+      </div>
+
+      <div class="tool-card">
+        <span class="tool-free">FREE</span>
+        <span class="tool-icon">✏️</span>
+        <span class="tool-name">Wireframe.cc</span>
+        <p class="tool-desc">Wireframes rápidos. Herramienta minimalista, perfecta para pasar el boceto de papel a digital en minutos.</p>
+        <a class="tool-link" href="https://wireframe.cc" target="_blank">↗ wireframe.cc</a>
+      </div>
+
+      <div class="tool-card">
+        <span class="tool-free">FREE</span>
+        <span class="tool-icon">🦄</span>
+        <span class="tool-name">Uizard</span>
+        <p class="tool-desc">¡Convierte fotos de bocetos en papel a prototipos digitales con IA!</p>
+        <a class="tool-link" href="https://uizard.io" target="_blank">↗ uizard.io</a>
+      </div>
+
+      <div class="tool-card">
+        <span class="tool-free">FREE</span>
+        <span class="tool-icon">🌟</span>
+        <span class="tool-name">Marvel App</span>
+        <p class="tool-desc">Prototipado súper rápido. Puedes tomar fotos de tus bocetos en papel y enlazarlos.</p>
+        <a class="tool-link" href="https://marvelapp.com" target="_blank">↗ marvelapp.com</a>
+      </div>
+
+      <div class="tool-card">
+        <span class="tool-free">FREE</span>
+        <span class="tool-icon">🎭</span>
+        <span class="tool-name">Canva (Whiteboards)</span>
+        <p class="tool-desc">Ya lo conocen. Los Whiteboards de Canva permiten organizar wireframes con arrastrar y soltar.</p>
+        <a class="tool-link" href="https://canva.com/whiteboards" target="_blank">↗ canva.com</a>
+      </div>
+
+    </div>
+
+    <div style="margin-top:22px; background:rgba(123,140,255,.08); border:1px solid rgba(123,140,255,.2); border-radius:12px; padding:16px 18px;">
+      <p style="font-size:.88rem; color:#c0c8e0;">
+        <strong style="color:var(--accent4)">🔑 Recomendación del instructor:</strong>
+        Comiencen con <strong>Wireframe.cc</strong> para digitalizar rápido sus bocetos (5 min), luego pasen a <strong>Figma o Penpot</strong> para agregar colores, tipografías y hacer el prototipo navegable.
+      </p>
+    </div>
+
+    <button class="btn btn-primary" style="margin-top:18px" onclick="earnXP(40,'t2','🛠️ ¡Constructor desbloqueado!')">
+      ✅ ¡Ya conozco las herramientas! Ganar 40 XP
+    </button>
+  </div>
+
+  <!-- ── SECCIÓN 4: VIDEO + QUIZ ── -->
+  <div class="section s4">
+    <span class="section-tag tag-red">🎬 Video + Quiz · +100 XP</span>
+    <h2>Aprende viendo: ¿Qué es un prototipo? 📺</h2>
+    <p>Mira el siguiente video sobre fundamentos de prototipado y UX. Luego responde el quiz para demostrar lo que aprendiste y ganar XP.</p>
+
+    <div class="video-wrap">
+      <!-- Video YouTube en español sobre prototipado / UX / Figma -->
+      <iframe
+        src="https://www.youtube.com/embed/c9Wg6Cb_YlU?rel=0&modestbranding=1"
+        title="¿Qué es un prototipo web? UX/UI Básico"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <p style="font-size:.82rem; color:var(--muted); margin-bottom:6px;">
+      🎯 <em>Mira el video completo antes de responder el quiz. Recuerda: las respuestas están en el video.</em>
+    </p>
+    <p style="font-size:.82rem; margin-bottom:18px;">
+      ▶️ ¿No carga el video? Ábrelo directamente aquí:
+      <a href="https://www.youtube.com/watch?v=c9Wg6Cb_YlU" target="_blank"
+         style="color:var(--accent4); font-weight:600; text-decoration:none;">
+        youtube.com/watch?v=c9Wg6Cb_YlU ↗
+      </a>
+    </p>
+
+    <!-- QUIZ -->
+    <div class="quiz-container" id="quiz">
+
+      <!-- P1 -->
+      <div class="quiz-question" id="q1">
+        <span class="quiz-q-num">Pregunta 1 / 5</span>
+        <p class="quiz-q-text">¿Cuál es la principal diferencia entre un <em>wireframe</em> y un <em>prototipo</em>?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answer(this,'q1','b')" data-val="a"><span class="opt-letter">A</span> El wireframe usa colores y el prototipo no</button>
+          <button class="quiz-opt" onclick="answer(this,'q1','b')" data-val="b"><span class="opt-letter">B</span> El wireframe es una estructura estática; el prototipo puede ser navegable e interactivo</button>
+          <button class="quiz-opt" onclick="answer(this,'q1','b')" data-val="c"><span class="opt-letter">C</span> Son exactamente lo mismo, solo cambia el nombre</button>
+          <button class="quiz-opt" onclick="answer(this,'q1','b')" data-val="d"><span class="opt-letter">D</span> El prototipo solo se hace en papel</button>
+        </div>
+        <div class="quiz-feedback" id="fb-q1"></div>
+      </div>
+
+      <!-- P2 -->
+      <div class="quiz-question" id="q2">
+        <span class="quiz-q-num">Pregunta 2 / 5</span>
+        <p class="quiz-q-text">¿Qué significa <strong>UX</strong> en el diseño web?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answer(this,'q2','c')" data-val="a"><span class="opt-letter">A</span> Uniform eXperience</button>
+          <button class="quiz-opt" onclick="answer(this,'q2','c')" data-val="b"><span class="opt-letter">B</span> User eXtension</button>
+          <button class="quiz-opt" onclick="answer(this,'q2','c')" data-val="c"><span class="opt-letter">C</span> User eXperience (experiencia del usuario)</button>
+          <button class="quiz-opt" onclick="answer(this,'q2','c')" data-val="d"><span class="opt-letter">D</span> Universal eXchange</button>
+        </div>
+        <div class="quiz-feedback" id="fb-q2"></div>
+      </div>
+
+      <!-- P3 -->
+      <div class="quiz-question" id="q3">
+        <span class="quiz-q-num">Pregunta 3 / 5</span>
+        <p class="quiz-q-text">¿En qué fase del proceso de diseño se crea normalmente el prototipo?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answer(this,'q3','b')" data-val="a"><span class="opt-letter">A</span> Antes de investigar al usuario</button>
+          <button class="quiz-opt" onclick="answer(this,'q3','b')" data-val="b"><span class="opt-letter">B</span> Después de definir la estructura y antes de desarrollar el código final</button>
+          <button class="quiz-opt" onclick="answer(this,'q3','b')" data-val="c"><span class="opt-letter">C</span> Cuando el sitio ya está 100% programado</button>
+          <button class="quiz-opt" onclick="answer(this,'q3','b')" data-val="d"><span class="opt-letter">D</span> Solo se hace cuando el cliente lo pide</button>
+        </div>
+        <div class="quiz-feedback" id="fb-q3"></div>
+      </div>
+
+      <!-- P4 -->
+      <div class="quiz-question" id="q4">
+        <span class="quiz-q-num">Pregunta 4 / 5</span>
+        <p class="quiz-q-text">¿Cuál herramienta permite convertir fotos de bocetos en papel directamente en prototipos digitales usando IA?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answer(this,'q4','d')" data-val="a"><span class="opt-letter">A</span> Wireframe.cc</button>
+          <button class="quiz-opt" onclick="answer(this,'q4','d')" data-val="b"><span class="opt-letter">B</span> Canva</button>
+          <button class="quiz-opt" onclick="answer(this,'q4','d')" data-val="c"><span class="opt-letter">C</span> Penpot</button>
+          <button class="quiz-opt" onclick="answer(this,'q4','d')" data-val="d"><span class="opt-letter">D</span> Uizard</button>
+        </div>
+        <div class="quiz-feedback" id="fb-q4"></div>
+      </div>
+
+      <!-- P5 -->
+      <div class="quiz-question" id="q5">
+        <span class="quiz-q-num">Pregunta 5 / 5</span>
+        <p class="quiz-q-text">¿Por qué es importante hacer pruebas de usabilidad con el prototipo antes de programar?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answer(this,'q5','a')" data-val="a"><span class="opt-letter">A</span> Para detectar errores de diseño temprano y ahorrar tiempo y dinero en desarrollo</button>
+          <button class="quiz-opt" onclick="answer(this,'q5','a')" data-val="b"><span class="opt-letter">B</span> Porque el cliente siempre sabe cómo programar</button>
+          <button class="quiz-opt" onclick="answer(this,'q5','a')" data-val="c"><span class="opt-letter">C</span> Solo se hacen pruebas cuando el sitio ya está publicado</button>
+          <button class="quiz-opt" onclick="answer(this,'q5','a')" data-val="d"><span class="opt-letter">D</span> Para cumplir un requisito burocrático del proyecto</button>
+        </div>
+        <div class="quiz-feedback" id="fb-q5"></div>
+      </div>
+
+      <div class="quiz-result" id="quiz-result">
+        <div class="score-big" id="quiz-score">0/5</div>
+        <p id="quiz-msg">Calculando resultado...</p>
+        <div class="xp-earned" id="quiz-xp"></div>
+        <button class="btn btn-ghost" style="margin-top:16px" onclick="resetQuiz()">🔄 Intentar de nuevo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECCIÓN 5: MISIONES ── -->
+  <div class="section s5">
+    <span class="section-tag tag-green">🗺️ Misiones del taller · +300 XP</span>
+    <h2>Misiones: ¡manos a la obra! 🕹️</h2>
+    <p>Completa cada misión en orden. Haz clic cuando termines para ganar XP. El instructor validará cada entrega antes de avanzar.</p>
+
+    <div class="mision-list">
+
+      <div class="mision" id="m1" onclick="completeMision('m1', 50, '¡Wireframe digital listo!')">
+        <div class="mision-check" id="mc1">○</div>
+        <div class="mision-num">01</div>
+        <div class="mision-body">
+          <h4>📸 Digitaliza tu boceto en papel</h4>
+          <p>Toma foto del boceto de la sesión anterior. Sube la imagen a <strong>Uizard</strong> o dibújalo en <strong>Wireframe.cc</strong>. Pon al menos 3 pantallas: Home, Servicios y Contacto.</p>
+        </div>
+        <span class="mision-xp">+50 XP</span>
+      </div>
+
+      <div class="mision" id="m2" onclick="completeMision('m2', 70, '¡Componentes creados!')">
+        <div class="mision-check" id="mc2">○</div>
+        <div class="mision-num">02</div>
+        <div class="mision-body">
+          <h4>🎨 Aplica la paleta de tu MiPyme</h4>
+          <p>Abre el proyecto en <strong>Figma o Penpot</strong>. Aplica la identidad visual de la empresa ficticia: paleta de colores, tipografía y logo básico.</p>
+        </div>
+        <span class="mision-xp">+70 XP</span>
+      </div>
+
+      <div class="mision" id="m3" onclick="completeMision('m3', 80, '¡Prototipo navegable!')">
+        <div class="mision-check" id="mc3">○</div>
+        <div class="mision-num">03</div>
+        <div class="mision-body">
+          <h4>🔗 Conecta las pantallas (prototype flow)</h4>
+          <p>En Figma/Penpot usa la herramienta <em>Prototype</em> para enlazar botones entre pantallas. El botón "Ver Servicios" debe navegar a la pantalla de servicios.</p>
+        </div>
+        <span class="mision-xp">+80 XP</span>
+      </div>
+
+      <div class="mision" id="m4" onclick="completeMision('m4', 60, '¡Feedback de pares completado!')">
+        <div class="mision-check" id="mc4">○</div>
+        <div class="mision-num">04</div>
+        <div class="mision-body">
+          <h4>👥 Revisión entre pares (Peer Review)</h4>
+          <p>Intercambia el enlace de tu prototipo con otro equipo. Dale <strong>1 comentario positivo</strong> y <strong>1 sugerencia de mejora</strong>. Regístralos en un Post-it digital (usa el whiteboard de Canva o Figma).</p>
+        </div>
+        <span class="mision-xp">+60 XP</span>
+      </div>
+
+      <div class="mision" id="m5" onclick="completeMision('m5', 90, '¡Presentación épica! 🏆')">
+        <div class="mision-check" id="mc5">○</div>
+        <div class="mision-num">05</div>
+        <div class="mision-body">
+          <h4>🎤 Pitch de 2 minutos</h4>
+          <p>Presenta el prototipo al grupo. Explica: ¿Qué servicio ofrece la MiPyme? ¿Qué pantallas tiene el sitio? ¿Por qué elegiste esa paleta de colores? Máximo 2 minutos por equipo.</p>
+        </div>
+        <span class="mision-xp">+90 XP</span>
+      </div>
+
+    </div>
+
+    <!-- ENTREGABLE -->
+    <div class="entregable">
+      <h4>📦 Entregable de la sesión</h4>
+      <ol>
+        <li>Enlace compartido del prototipo en Figma, Penpot o Marvel App (mínimo 3 pantallas navegables)</li>
+        <li>Captura de pantalla del wireframe inicial en Wireframe.cc o Uizard</li>
+        <li>Post-it digital con el feedback recibido del equipo par</li>
+        <li>Grabación del pitch de 2 minutos (opcional: usar la cámara del móvil)</li>
+      </ol>
+    </div>
+  </div>
+
+</main>
+
+<!-- TOAST -->
+<div id="toast">
+  <span id="toast-icon">🎉</span>
+  <span id="toast-text">¡Logro desbloqueado!</span>
+</div>
+
+<footer>
+  SENA · Centro de Industria y Construcción · Regional Tolima · Tecnólogo en Producción de Multimedia · Ficha 3140092 Noche · Instructor: Juan Viveros
+</footer>
+
+<script>
+// ── GAME STATE ──
+let xp = 0;
+const XP_MAX = 500;
+const levels = [
+  { min: 0,   label: 'Nv. 1 · Aprendiz' },
+  { min: 100, label: 'Nv. 2 · Wireframer' },
+  { min: 200, label: 'Nv. 3 · Diseñador' },
+  { min: 350, label: 'Nv. 4 · Prototipador' },
+  { min: 450, label: 'Nv. 5 · Experto UX' },
+];
+const singleUse = new Set();
+
+function earnXP(amount, trophyId, trophyMsg) {
+  if (singleUse.has(trophyId || amount)) return;
+  if (trophyId) singleUse.add(trophyId);
+
+  xp = Math.min(xp + amount, XP_MAX);
+  updateXPBar();
+  if (trophyId) {
+    unlockTrophy(trophyId, trophyMsg);
+  } else {
+    showToast('⚡', `+${amount} XP ganados`);
+  }
+}
+
+function updateXPBar() {
+  const pct = (xp / XP_MAX) * 100;
+  document.getElementById('xp-fill').style.width = pct + '%';
+  document.getElementById('xp-points').textContent = `${xp} / ${XP_MAX} XP`;
+  const lv = [...levels].reverse().find(l => xp >= l.min);
+  document.getElementById('level-label').textContent = lv.label;
+}
+
+function unlockTrophy(id, msg) {
+  const el = document.getElementById(id);
+  if (el) el.classList.add('earned');
+  showToast('🏅', msg || '¡Logro desbloqueado!');
+}
+
+function showToast(icon, text) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-icon').textContent = icon;
+  document.getElementById('toast-text').textContent = text;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── MISIONES ──
+const misionDone = {};
+function completeMision(id, xpVal, msg) {
+  if (misionDone[id]) return;
+  misionDone[id] = true;
+  const el = document.getElementById(id);
+  el.classList.add('done');
+  const mc = document.getElementById('mc' + id.replace('m',''));
+  mc.textContent = '✓';
+  earnXP(xpVal, null, null);
+  xp -= xpVal; // re-add via earnXP path
+  xp = Math.min(xp + xpVal, XP_MAX);
+  updateXPBar();
+  showToast('✅', `+${xpVal} XP · ${msg}`);
+  if (Object.keys(misionDone).length === 5) {
+    setTimeout(() => unlockTrophy('t4', '🎨 ¡Prototipador desbloqueado!'), 400);
+    setTimeout(() => unlockTrophy('t5', '🏆 ¡Campeón desbloqueado!'), 1200);
+  }
+}
+
+// ── QUIZ ──
+const quizAnswers = { q1:'b', q2:'c', q3:'b', q4:'d', q5:'a' };
+const quizState = {};
+const feedbacks = {
+  q1: {
+    ok: '✅ ¡Correcto! El wireframe muestra estructura y layout sin color ni contenido real. El prototipo agrega interactividad.',
+    ko: '❌ No del todo. El wireframe es un esquema estático de la estructura; el prototipo permite simular la navegación.'
+  },
+  q2: {
+    ok: '✅ ¡Exacto! UX = User Experience. Se enfoca en cómo se siente el usuario al interactuar con el producto.',
+    ko: '❌ UX significa User Experience (experiencia del usuario), la disciplina que diseña cómo se siente usar un producto.'
+  },
+  q3: {
+    ok: '✅ ¡Perfecto! El prototipo se crea luego de definir la arquitectura de información y antes de escribir código.',
+    ko: '❌ El prototipo va después de planear la estructura del sitio pero ANTES de programar, para validar con usuarios.'
+  },
+  q4: {
+    ok: '✅ ¡Correcto! Uizard tiene una función de IA que convierte fotos de bocetos en papel a wireframes digitales automáticamente.',
+    ko: '❌ Es Uizard. Tiene una función de IA llamada "Autodesigner" que convierte fotos de bocetos en prototipos digitales.'
+  },
+  q5: {
+    ok: '✅ ¡Exacto! Probar antes de programar detecta problemas de UX cuando aún son baratos de corregir.',
+    ko: '❌ La razón principal es detectar problemas de diseño ANTES de invertir tiempo en programación, ahorrando costos.'
+  }
+};
+
+let quizXP = 0;
+
+function answer(btn, qId, correct) {
+  if (quizState[qId]) return;
+  quizState[qId] = true;
+
+  const val = btn.dataset.val;
+  const isCorrect = (val === correct);
+  const opts = btn.closest('.quiz-options').querySelectorAll('.quiz-opt');
+  opts.forEach(o => {
+    o.disabled = true;
+    if (o.dataset.val === correct) o.classList.add('correct');
+  });
+  if (!isCorrect) btn.classList.add('wrong');
+
+  const fb = document.getElementById('fb-' + qId);
+  fb.textContent = feedbacks[qId][isCorrect ? 'ok' : 'ko'];
+  fb.className = 'quiz-feedback show ' + (isCorrect ? 'ok' : 'ko');
+  document.getElementById(qId).classList.add('answered');
+
+  if (isCorrect) quizXP += 20;
+
+  if (Object.keys(quizState).length === 5) {
+    showQuizResult();
+  }
+}
+
+function showQuizResult() {
+  const correct = quizXP / 20;
+  const total = 5;
+  const pct = Math.round((correct / total) * 100);
+  document.getElementById('quiz-score').textContent = correct + '/' + total;
+  let msg = '';
+  if (pct === 100) msg = '🏆 ¡Perfecto! Eres un crack del UX.';
+  else if (pct >= 60) msg = '💪 ¡Buen trabajo! Sigue practicando.';
+  else msg = '📚 Revisa el video y vuelve a intentarlo.';
+  document.getElementById('quiz-msg').textContent = msg;
+  const bonusXP = correct >= 4 ? 100 : correct >= 3 ? 70 : 40;
+  document.getElementById('quiz-xp').textContent = `+${bonusXP} XP ganados`;
+  document.getElementById('quiz-result').classList.add('show');
+  earnXP(bonusXP, 't3', '🧠 ¡Maestro del Quiz desbloqueado!');
+}
+
+function resetQuiz() {
+  Object.keys(quizState).forEach(k => delete quizState[k]);
+  quizXP = 0;
+  document.querySelectorAll('.quiz-question').forEach(q => {
+    q.classList.remove('answered');
+    q.querySelectorAll('.quiz-opt').forEach(o => {
+      o.disabled = false;
+      o.classList.remove('correct','wrong');
+    });
+    q.querySelector('.quiz-feedback').className = 'quiz-feedback';
+  });
+  document.getElementById('quiz-result').classList.remove('show');
+}
+
+updateXPBar();
+</script>
+</body>
+</html>
