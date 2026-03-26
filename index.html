@@ -3,968 +3,1163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Taller: Del Papel a la Pantalla 🚀</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<title>Taller 3 · Producción de Contenidos Web</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0d0f1a;
-    --surface: #151829;
-    --card: #1c2035;
-    --border: #2a3050;
-    --accent1: #f7c948;
-    --accent2: #4af0b0;
-    --accent3: #ff6b6b;
-    --accent4: #7b8cff;
-    --text: #e8eaf6;
-    --muted: #8890b0;
-    --xp-color: #f7c948;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+/* ── TOKENS ── */
+:root {
+  --ink:     #0f0e0c;
+  --cream:   #f5f0e8;
+  --warm:    #ede7d9;
+  --paper:   #faf7f2;
+  --orange:  #e8541a;
+  --coral:   #f7845a;
+  --teal:    #0d9e8a;
+  --sky:     #2563c4;
+  --gold:    #d4a017;
+  --violet:  #7c3aed;
+  --muted:   #6b6355;
+  --border:  #d8d0c0;
+  --card:    #ffffff;
+  --shadow:  rgba(15,14,12,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+}
 
-  /* ── STARS BG ── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image:
-      radial-gradient(1px 1px at 10% 20%, rgba(247,201,72,.5) 0%, transparent 100%),
-      radial-gradient(1px 1px at 30% 60%, rgba(74,240,176,.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 70% 15%, rgba(123,140,255,.5) 0%, transparent 100%),
-      radial-gradient(1px 1px at 85% 75%, rgba(255,107,107,.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 50% 90%, rgba(247,201,72,.3) 0%, transparent 100%);
-    pointer-events: none; z-index: 0;
-  }
+/* ── NOISE TEXTURE OVERLAY ── */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.6;
+}
 
-  /* ── HEADER ── */
-  header {
-    position: relative; z-index: 10;
-    background: linear-gradient(135deg, #1a1e35 0%, #0f1525 100%);
-    border-bottom: 2px solid var(--border);
-    padding: 24px 40px;
-    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
-  }
-  .header-left h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(1.4rem, 3vw, 2rem);
-    font-weight: 800;
-    color: var(--accent1);
-    line-height: 1.1;
-  }
-  .header-left p { color: var(--muted); font-size: .9rem; margin-top: 4px; }
-  .badge-sena {
-    background: linear-gradient(135deg, var(--accent4), #4af0b0);
-    color: #0d0f1a;
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: .75rem;
-    padding: 6px 14px;
-    border-radius: 100px;
-    letter-spacing: .05em;
-    white-space: nowrap;
-  }
+/* ── HEADER ── */
+header{
+  background:var(--ink);
+  color:var(--cream);
+  padding:28px 48px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
+  position:relative;z-index:30;
+  border-bottom:4px solid var(--orange);
+}
+.h-left{}
+.h-eyebrow{
+  font-family:'Space Mono',monospace;
+  font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--coral);margin-bottom:8px;
+}
+.h-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.5rem,3.5vw,2.2rem);
+  font-weight:900;line-height:1.05;
+  color:#fff;
+}
+.h-title span{color:var(--orange);}
+.h-meta{
+  font-size:.82rem;color:#a89d8d;margin-top:6px;
+  font-family:'Space Mono',monospace;
+}
+.h-badge{
+  background:var(--orange);
+  color:#fff;
+  font-family:'Space Mono',monospace;
+  font-weight:700;font-size:.72rem;letter-spacing:.08em;
+  padding:8px 18px;border-radius:4px;
+  white-space:nowrap;
+}
 
-  /* ── XP BAR ── */
-  .xp-bar-wrap {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 40px;
-    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
-    position: sticky; top: 0; z-index: 20;
-  }
-  .xp-label { font-family: 'Syne', sans-serif; font-size: .8rem; font-weight: 700; color: var(--accent1); white-space: nowrap; }
-  .xp-track {
-    flex: 1; min-width: 120px; height: 10px;
-    background: var(--border); border-radius: 999px; overflow: hidden;
-  }
-  .xp-fill {
-    height: 100%; width: 0%;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    border-radius: 999px;
-    transition: width .6s cubic-bezier(.4,0,.2,1);
-  }
-  .xp-points {
-    font-family: 'Syne', sans-serif; font-size: .85rem; font-weight: 700;
-    color: var(--accent1); white-space: nowrap;
-  }
-  .level-badge {
-    background: var(--card); border: 1px solid var(--accent1);
-    color: var(--accent1); font-family: 'Syne', sans-serif;
-    font-size: .75rem; font-weight: 800;
-    padding: 4px 12px; border-radius: 100px;
-  }
-  .trophy-strip {
-    display: flex; gap: 8px; align-items: center;
-  }
-  .trophy { font-size: 1.2rem; opacity: .3; transition: opacity .4s, transform .4s; }
-  .trophy.earned { opacity: 1; transform: scale(1.15); }
+/* ── PROGRESS STRIP ── */
+.progress-strip{
+  background:var(--ink);
+  border-bottom:2px solid #2a2620;
+  padding:10px 48px;
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  position:sticky;top:0;z-index:25;
+}
+.prog-label{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--coral);white-space:nowrap;}
+.prog-track{flex:1;min-width:120px;height:8px;background:#2a2620;border-radius:2px;overflow:hidden;}
+.prog-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--orange),var(--gold));
+  border-radius:2px;transition:width .7s cubic-bezier(.4,0,.2,1);
+}
+.prog-pts{font-family:'Space Mono',monospace;font-size:.78rem;color:#fff;white-space:nowrap;}
+.prog-level{
+  font-family:'Space Mono',monospace;font-size:.68rem;font-weight:700;
+  background:#2a2620;color:var(--coral);
+  padding:4px 10px;border-radius:2px;white-space:nowrap;
+}
+.medals-row{display:flex;gap:6px;align-items:center;}
+.medal{font-size:1.1rem;opacity:.25;transition:opacity .4s,transform .4s;}
+.medal.on{opacity:1;transform:scale(1.2);}
 
-  /* ── MAIN ── */
-  main {
-    max-width: 900px; margin: 0 auto;
-    padding: 40px 20px 80px;
-    position: relative; z-index: 5;
-  }
+/* ── LAYOUT ── */
+main{
+  max-width:980px;margin:0 auto;
+  padding:48px 24px 100px;
+  position:relative;z-index:5;
+}
 
-  /* ── SECTION BLOCKS ── */
-  .section {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 32px;
-    margin-bottom: 28px;
-    position: relative;
-    overflow: hidden;
-  }
-  .section::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  }
-  .section.s1::before { background: linear-gradient(90deg, var(--accent1), var(--accent2)); }
-  .section.s2::before { background: linear-gradient(90deg, var(--accent2), var(--accent4)); }
-  .section.s3::before { background: linear-gradient(90deg, var(--accent4), var(--accent3)); }
-  .section.s4::before { background: linear-gradient(90deg, var(--accent3), var(--accent1)); }
-  .section.s5::before { background: linear-gradient(90deg, var(--accent2), var(--accent3)); }
+/* ── SECTION ── */
+.sec{
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:6px;
+  box-shadow:4px 6px 0 var(--border);
+  padding:36px 40px;
+  margin-bottom:32px;
+  position:relative;
+  animation:rise .5s ease both;
+}
+.sec:nth-child(1){animation-delay:.05s}
+.sec:nth-child(2){animation-delay:.10s}
+.sec:nth-child(3){animation-delay:.15s}
+.sec:nth-child(4){animation-delay:.20s}
+.sec:nth-child(5){animation-delay:.25s}
+.sec:nth-child(6){animation-delay:.30s}
+.sec:nth-child(7){animation-delay:.35s}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-  .section-tag {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 700;
-    letter-spacing: .1em; text-transform: uppercase;
-    padding: 4px 12px; border-radius: 100px;
-    margin-bottom: 14px;
-  }
-  .tag-yellow { background: rgba(247,201,72,.15); color: var(--accent1); border: 1px solid rgba(247,201,72,.3); }
-  .tag-green  { background: rgba(74,240,176,.12); color: var(--accent2); border: 1px solid rgba(74,240,176,.3); }
-  .tag-blue   { background: rgba(123,140,255,.15); color: var(--accent4); border: 1px solid rgba(123,140,255,.3); }
-  .tag-red    { background: rgba(255,107,107,.12); color: var(--accent3); border: 1px solid rgba(255,107,107,.3); }
+/* accent left strip */
+.sec::before{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:6px 0 0 6px;
+}
+.acc-orange::before{background:var(--orange);}
+.acc-teal::before{background:var(--teal);}
+.acc-sky::before{background:var(--sky);}
+.acc-gold::before{background:var(--gold);}
+.acc-violet::before{background:var(--violet);}
+.acc-coral::before{background:var(--coral);}
+.acc-ink::before{background:var(--ink);}
 
-  .section h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(1.1rem, 2.5vw, 1.45rem);
-    font-weight: 800;
-    margin-bottom: 12px;
-    line-height: 1.2;
-  }
-  .section p, .section li {
-    color: #c0c8e0;
-    font-size: .95rem;
-    line-height: 1.7;
-  }
-  .section ul { padding-left: 20px; }
-  .section li { margin-bottom: 6px; }
+.sec-eyebrow{
+  font-family:'Space Mono',monospace;
+  font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:8px;
+}
+.sec-eyebrow .xp-pill{
+  background:var(--orange);color:#fff;
+  font-size:.62rem;padding:2px 8px;border-radius:2px;font-weight:700;
+}
+.sec h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.15rem,2.5vw,1.55rem);
+  font-weight:900;line-height:1.2;margin-bottom:14px;
+}
+.sec p,.sec li{font-size:.93rem;line-height:1.75;color:#3a3530;}
+.sec ul{padding-left:20px;}
+.sec li{margin-bottom:5px;}
+strong{color:var(--ink);font-weight:800;}
 
-  /* ── RECAP BOX ── */
-  .recap {
-    background: rgba(247,201,72,.07);
-    border: 1px solid rgba(247,201,72,.2);
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin-bottom: 16px;
-    display: flex; gap: 14px; align-items: flex-start;
-  }
-  .recap-icon { font-size: 1.6rem; flex-shrink: 0; }
-  .recap p { font-size: .9rem; color: #d4d8f0; }
+hr.div{border:none;border-top:1.5px dashed var(--border);margin:20px 0;}
 
-  /* ── TOOLS GRID ── */
-  .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 14px;
-    margin-top: 20px;
-  }
-  .tool-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px 16px;
-    text-align: center;
-    transition: transform .2s, border-color .2s, box-shadow .2s;
-    cursor: default;
-    position: relative;
-  }
-  .tool-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--accent4);
-    box-shadow: 0 8px 30px rgba(123,140,255,.2);
-  }
-  .tool-icon { font-size: 2rem; display: block; margin-bottom: 8px; }
-  .tool-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700; font-size: .9rem;
-    color: var(--text); display: block; margin-bottom: 4px;
-  }
-  .tool-desc { font-size: .78rem; color: var(--muted); }
-  .tool-free {
-    position: absolute; top: 10px; right: 10px;
-    background: rgba(74,240,176,.15);
-    color: var(--accent2);
-    font-size: .65rem; font-weight: 700;
-    padding: 2px 7px; border-radius: 100px;
-  }
-  .tool-link {
-    display: inline-block;
-    margin-top: 8px;
-    font-size: .75rem;
-    color: var(--accent4);
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .tool-link:hover { text-decoration: underline; }
+/* ── CALLOUT ── */
+.callout{
+  border-radius:4px;padding:16px 20px;margin:16px 0;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.callout-orange{background:#fff5f0;border:1px solid #f7c5b0;}
+.callout-teal{background:#f0faf8;border:1px solid #a0dcd4;}
+.callout-sky{background:#f0f5ff;border:1px solid #a0b8f0;}
+.callout-gold{background:#fffbf0;border:1px solid #e8d080;}
+.callout-icon{font-size:1.5rem;flex-shrink:0;line-height:1;}
+.callout p{font-size:.88rem;color:#3a3530;}
 
-  /* ── MISION CARDS ── */
-  .mision-list { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
-  .mision {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px 20px;
-    display: flex; align-items: flex-start; gap: 16px;
-    transition: border-color .3s;
-    cursor: pointer;
-  }
-  .mision:hover { border-color: var(--accent2); }
-  .mision.done { border-color: var(--accent2); background: rgba(74,240,176,.05); }
-  .mision-num {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: 1.4rem; color: var(--accent4);
-    flex-shrink: 0; width: 36px;
-  }
-  .mision.done .mision-num { color: var(--accent2); }
-  .mision-body { flex: 1; }
-  .mision-body h4 {
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    font-size: .95rem; margin-bottom: 4px;
-  }
-  .mision-body p { font-size: .85rem; color: var(--muted); }
-  .mision-xp {
-    font-family: 'Syne', sans-serif; font-size: .8rem;
-    font-weight: 700; color: var(--accent1);
-    white-space: nowrap; flex-shrink: 0;
-    padding: 4px 10px;
-    background: rgba(247,201,72,.1);
-    border-radius: 100px;
-    border: 1px solid rgba(247,201,72,.2);
-  }
-  .mision-check {
-    width: 26px; height: 26px; border-radius: 50%;
-    border: 2px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-size: .9rem; flex-shrink: 0;
-    transition: all .3s;
-  }
-  .mision.done .mision-check {
-    background: var(--accent2); border-color: var(--accent2); color: #0d0f1a;
-  }
+/* ── INVENTORY CHECKLIST ── */
+.inv-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:12px;margin-top:18px;
+}
+.inv-item{
+  background:var(--warm);
+  border:1.5px solid var(--border);
+  border-radius:6px;padding:14px 16px;
+  display:flex;align-items:center;gap:12px;
+  cursor:pointer;
+  transition:border-color .2s,background .2s,transform .15s;
+  user-select:none;
+}
+.inv-item:hover{transform:translateY(-2px);border-color:var(--orange);}
+.inv-item.ticked{background:#fff5f0;border-color:var(--orange);}
+.inv-item.ticked .inv-box{background:var(--orange);border-color:var(--orange);color:#fff;}
+.inv-box{
+  width:22px;height:22px;border-radius:3px;border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;flex-shrink:0;transition:all .2s;
+}
+.inv-label{font-size:.85rem;font-weight:700;color:var(--ink);}
+.inv-sub{font-size:.72rem;color:var(--muted);margin-top:2px;}
 
-  /* ── VIDEO EMBED ── */
-  .video-wrap {
-    border-radius: 14px;
-    overflow: hidden;
-    border: 2px solid var(--border);
-    margin: 20px 0;
-    aspect-ratio: 16/9;
-    background: #000;
-  }
-  .video-wrap iframe {
-    width: 100%; height: 100%;
-    display: block;
-  }
+/* ── TOOLS GRID ── */
+.tools-wrap{display:flex;flex-direction:column;gap:28px;margin-top:20px;}
+.tool-cat-title{
+  font-family:'Space Mono',monospace;
+  font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px;
+  padding-bottom:6px;border-bottom:1.5px dashed var(--border);
+}
+.tool-cat-title span{font-size:1rem;margin-right:6px;}
+.tools-row{display:flex;flex-wrap:wrap;gap:10px;}
+.tool-chip{
+  background:var(--warm);
+  border:1.5px solid var(--border);
+  border-radius:50px;
+  padding:8px 16px;
+  display:flex;align-items:center;gap:8px;
+  transition:all .2s;
+  text-decoration:none;
+  color:var(--ink);
+}
+.tool-chip:hover{background:var(--ink);color:var(--cream);border-color:var(--ink);transform:translateY(-2px);}
+.tool-chip .t-icon{font-size:1rem;}
+.tool-chip .t-name{font-size:.82rem;font-weight:700;}
+.tool-chip .t-free{
+  font-size:.6rem;font-weight:800;letter-spacing:.05em;
+  background:var(--teal);color:#fff;
+  padding:1px 6px;border-radius:30px;
+}
+.tool-chip .t-open{
+  font-size:.6rem;font-weight:800;
+  background:var(--sky);color:#fff;
+  padding:1px 6px;border-radius:30px;
+}
 
-  /* ── QUIZ ── */
-  .quiz-container { margin-top: 24px; }
-  .quiz-question {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px 22px;
-    margin-bottom: 16px;
-    transition: border-color .3s;
-  }
-  .quiz-question.answered { border-color: var(--accent4); }
-  .quiz-q-text {
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    font-size: .95rem; margin-bottom: 14px;
-    color: var(--text);
-  }
-  .quiz-q-num {
-    font-size: .75rem; color: var(--accent4);
-    font-weight: 600; display: block; margin-bottom: 6px;
-  }
-  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
-  .quiz-opt {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 11px 16px;
-    cursor: pointer;
-    font-size: .88rem;
-    color: var(--text);
-    text-align: left;
-    transition: all .2s;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .quiz-opt:hover:not(:disabled) {
-    border-color: var(--accent4);
-    background: rgba(123,140,255,.1);
-  }
-  .quiz-opt.correct { background: rgba(74,240,176,.15); border-color: var(--accent2); color: #b0fff0; }
-  .quiz-opt.wrong   { background: rgba(255,107,107,.12); border-color: var(--accent3); color: #ffb0b0; }
-  .quiz-opt:disabled { cursor: default; }
-  .opt-letter {
-    width: 22px; height: 22px; border-radius: 50%;
-    background: var(--border); color: var(--muted);
-    font-family: 'Syne', sans-serif; font-weight: 700; font-size: .75rem;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .quiz-feedback {
-    margin-top: 10px; padding: 10px 14px;
-    border-radius: 8px; font-size: .85rem;
-    display: none;
-  }
-  .quiz-feedback.show { display: block; }
-  .quiz-feedback.ok { background: rgba(74,240,176,.12); color: var(--accent2); }
-  .quiz-feedback.ko { background: rgba(255,107,107,.1); color: var(--accent3); }
+/* ── SPEC TABLE ── */
+.spec-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:.85rem;}
+.spec-table th{
+  background:var(--ink);color:#fff;
+  font-family:'Space Mono',monospace;font-size:.7rem;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:10px 14px;text-align:left;
+}
+.spec-table td{
+  padding:10px 14px;border-bottom:1px solid var(--border);
+  vertical-align:top;color:#3a3530;
+}
+.spec-table tr:nth-child(even) td{background:var(--warm);}
+.spec-table tr:hover td{background:#fff5f0;}
+.tag-req{
+  display:inline-block;font-size:.65rem;font-weight:800;letter-spacing:.05em;
+  padding:2px 7px;border-radius:2px;margin-left:6px;
+}
+.req-must{background:#fde8e0;color:var(--orange);}
+.req-good{background:#e0f7f4;color:var(--teal);}
+.req-nice{background:#e8eeff;color:var(--sky);}
 
-  .quiz-result {
-    display: none;
-    background: var(--surface);
-    border: 2px solid var(--accent1);
-    border-radius: 16px;
-    padding: 28px 24px;
-    text-align: center;
-    margin-top: 10px;
-  }
-  .quiz-result.show { display: block; }
-  .quiz-result .score-big {
-    font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800;
-    color: var(--accent1); line-height: 1;
-  }
-  .quiz-result p { margin-top: 8px; color: var(--muted); }
-  .quiz-result .xp-earned {
-    margin-top: 12px;
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    color: var(--accent2); font-size: 1.1rem;
-  }
+/* ── MISSIONS ── */
+.missions{display:flex;flex-direction:column;gap:14px;margin-top:20px;}
+.mission{
+  background:var(--warm);
+  border:1.5px solid var(--border);
+  border-radius:6px;padding:18px 20px;
+  display:flex;align-items:flex-start;gap:16px;
+  cursor:pointer;
+  transition:border-color .25s,background .25s,transform .15s;
+}
+.mission:hover{border-color:var(--orange);transform:translateX(4px);}
+.mission.done{background:#fff5f0;border-color:var(--orange);}
+.mission-num{
+  font-family:'Playfair Display',serif;font-weight:900;
+  font-size:1.8rem;color:var(--border);line-height:1;
+  flex-shrink:0;min-width:36px;transition:color .25s;
+}
+.mission.done .mission-num{color:var(--orange);}
+.mission-body{flex:1;}
+.mission-body h4{font-weight:800;font-size:.95rem;margin-bottom:4px;}
+.mission-body p{font-size:.83rem;color:var(--muted);line-height:1.6;}
+.mission-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;}
+.m-xp{
+  font-family:'Space Mono',monospace;font-weight:700;font-size:.78rem;
+  color:var(--orange);background:#fff5f0;
+  border:1px solid #f7c5b0;padding:3px 10px;border-radius:2px;
+  white-space:nowrap;
+}
+.m-time{font-size:.72rem;color:var(--muted);font-family:'Space Mono',monospace;}
+.m-check{
+  width:28px;height:28px;border-radius:4px;
+  border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;flex-shrink:0;transition:all .3s;
+}
+.mission.done .m-check{background:var(--orange);border-color:var(--orange);color:#fff;}
 
-  .btn {
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    border: none; border-radius: 10px;
-    padding: 12px 24px; cursor: pointer;
-    font-size: .9rem;
-    transition: transform .15s, box-shadow .15s;
-  }
-  .btn:active { transform: scale(.97); }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent1), #e8a800);
-    color: #0d0f1a;
-    box-shadow: 0 4px 20px rgba(247,201,72,.3);
-  }
-  .btn-primary:hover { box-shadow: 0 6px 28px rgba(247,201,72,.5); }
-  .btn-ghost {
-    background: transparent; color: var(--muted);
-    border: 1px solid var(--border);
-  }
-  .btn-ghost:hover { border-color: var(--accent4); color: var(--accent4); }
+/* ── VIDEO ── */
+.video-frame{
+  border-radius:6px;overflow:hidden;
+  border:3px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);
+  aspect-ratio:16/9;background:#000;
+  margin:20px 0;
+}
+.video-frame iframe{width:100%;height:100%;display:block;}
+.vid-fallback{
+  background:var(--warm);border:1.5px dashed var(--border);
+  border-radius:4px;padding:12px 16px;font-size:.83rem;margin-bottom:18px;
+}
+.vid-fallback a{color:var(--sky);font-weight:700;text-decoration:none;}
+.vid-fallback a:hover{text-decoration:underline;}
 
-  /* ── METHODOLOGY ── */
-  .method-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 12px; margin-top: 18px;
-  }
-  .method-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    text-align: center;
-  }
-  .method-card .m-icon { font-size: 2rem; display: block; margin-bottom: 8px; }
-  .method-card h4 {
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    font-size: .85rem; color: var(--text); margin-bottom: 4px;
-  }
-  .method-card p { font-size: .78rem; color: var(--muted); line-height: 1.5; }
+/* ── QUIZ ── */
+.quiz-q{
+  background:var(--warm);border:1.5px solid var(--border);
+  border-radius:6px;padding:20px 22px;margin-bottom:14px;
+  transition:border-color .3s;
+}
+.quiz-q.answered{border-color:var(--orange);}
+.q-meta{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--muted);margin-bottom:6px;}
+.q-text{font-weight:800;font-size:.92rem;margin-bottom:14px;}
+.q-opts{display:flex;flex-direction:column;gap:8px;}
+.q-opt{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:4px;padding:10px 16px;
+  cursor:pointer;font-size:.86rem;text-align:left;
+  transition:all .2s;display:flex;align-items:center;gap:10px;
+}
+.q-opt:hover:not(:disabled){border-color:var(--orange);background:#fff5f0;}
+.q-opt.ok{background:#f0faf8;border-color:var(--teal);color:#0a7060;}
+.q-opt.ko{background:#fff5f0;border-color:var(--coral);color:#c0402a;}
+.q-opt:disabled{cursor:default;}
+.q-letter{
+  width:22px;height:22px;border-radius:3px;
+  background:var(--warm);color:var(--muted);
+  font-family:'Space Mono',monospace;font-weight:700;font-size:.72rem;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.q-fb{display:none;margin-top:10px;padding:10px 14px;border-radius:4px;font-size:.83rem;}
+.q-fb.show{display:block;}
+.q-fb.ok{background:#f0faf8;color:#0a7060;}
+.q-fb.ko{background:#fff5f0;color:#c0402a;}
 
-  /* ── ENTREGABLE BOX ── */
-  .entregable {
-    background: linear-gradient(135deg, rgba(123,140,255,.12), rgba(74,240,176,.08));
-    border: 1px solid rgba(123,140,255,.3);
-    border-radius: 14px;
-    padding: 22px 24px;
-    margin-top: 18px;
-  }
-  .entregable h4 {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    color: var(--accent4); font-size: 1rem; margin-bottom: 10px;
-  }
-  .entregable ol { padding-left: 20px; }
-  .entregable li { font-size: .9rem; color: #c0c8e0; margin-bottom: 6px; line-height: 1.6; }
+.quiz-result{
+  display:none;background:var(--ink);color:#fff;
+  border-radius:6px;padding:30px 28px;text-align:center;margin-top:14px;
+}
+.quiz-result.show{display:block;}
+.quiz-score-big{
+  font-family:'Playfair Display',serif;font-weight:900;
+  font-size:3.5rem;color:var(--orange);line-height:1;
+}
+.quiz-result p{color:#a89d8d;margin-top:8px;font-size:.9rem;}
+.quiz-xp-earned{color:var(--teal);font-weight:800;font-size:1.05rem;margin-top:10px;}
 
-  /* ── TOAST ── */
-  #toast {
-    position: fixed; bottom: 30px; right: 30px;
-    background: var(--card); border: 1px solid var(--accent2);
-    border-radius: 14px; padding: 14px 20px;
-    display: flex; align-items: center; gap: 12px;
-    z-index: 100;
-    transform: translateY(80px); opacity: 0;
-    transition: all .4s cubic-bezier(.4,0,.2,1);
-    pointer-events: none;
-    max-width: 300px;
-  }
-  #toast.show { transform: translateY(0); opacity: 1; }
-  #toast-icon { font-size: 1.5rem; }
-  #toast-text { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .85rem; color: var(--accent2); }
+/* ── DELIVERABLE ── */
+.deliverable{
+  background:var(--ink);color:#fff;
+  border-radius:6px;padding:28px 32px;margin-top:20px;
+}
+.deliverable h4{
+  font-family:'Playfair Display',serif;font-weight:900;
+  font-size:1.15rem;color:var(--orange);margin-bottom:16px;
+}
+.deliverable ol{padding-left:20px;}
+.deliverable li{
+  color:#d4cec4;font-size:.9rem;margin-bottom:8px;line-height:1.65;
+}
+.deliverable li strong{color:#fff;}
 
-  /* ── FOOTER ── */
-  footer {
-    text-align: center; padding: 30px 20px;
-    color: var(--muted); font-size: .8rem;
-    border-top: 1px solid var(--border);
-    position: relative; z-index: 5;
-  }
+/* ── BUTTONS ── */
+.btn{
+  font-family:'Space Mono',monospace;font-weight:700;font-size:.8rem;
+  border:none;border-radius:4px;padding:12px 24px;
+  cursor:pointer;transition:all .15s;letter-spacing:.04em;
+}
+.btn:active{transform:scale(.97);}
+.btn-orange{
+  background:var(--orange);color:#fff;
+  box-shadow:3px 3px 0 #b53e10;
+}
+.btn-orange:hover{background:#d44a14;box-shadow:2px 2px 0 #b53e10;}
+.btn-ghost{background:transparent;color:var(--muted);border:1.5px solid var(--border);}
+.btn-ghost:hover{border-color:var(--orange);color:var(--orange);}
 
-  /* ── ANIMATE IN ── */
-  .section { animation: fadeUp .5s ease both; }
-  .section:nth-child(1) { animation-delay: .05s; }
-  .section:nth-child(2) { animation-delay: .12s; }
-  .section:nth-child(3) { animation-delay: .19s; }
-  .section:nth-child(4) { animation-delay: .26s; }
-  .section:nth-child(5) { animation-delay: .33s; }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:28px;right:28px;
+  background:var(--ink);color:#fff;
+  border:2px solid var(--orange);border-radius:6px;
+  padding:14px 20px;display:flex;align-items:center;gap:12px;
+  z-index:200;max-width:300px;
+  transform:translateY(80px);opacity:0;
+  transition:all .4s cubic-bezier(.4,0,.2,1);pointer-events:none;
+}
+#toast.show{transform:translateY(0);opacity:1;}
+#ti{font-size:1.4rem;}
+#tt{font-family:'Space Mono',monospace;font-size:.78rem;font-weight:700;color:var(--coral);}
 
-  .divider {
-    border: none; border-top: 1px solid var(--border);
-    margin: 20px 0;
-  }
+/* ── FOOTER ── */
+footer{
+  text-align:center;padding:28px 20px;
+  color:var(--muted);font-size:.78rem;
+  border-top:2px dashed var(--border);
+  font-family:'Space Mono',monospace;
+  position:relative;z-index:5;
+}
 
-  .timer-bar {
-    height: 4px; background: var(--border); border-radius: 2px;
-    margin-top: 14px; overflow: hidden;
-  }
-  .timer-fill {
-    height: 100%; width: 100%;
-    background: linear-gradient(90deg, var(--accent2), var(--accent4));
-    border-radius: 2px;
-    transition: width linear;
-  }
-
-  @media (max-width: 600px) {
-    header { padding: 16px 18px; }
-    .xp-bar-wrap { padding: 10px 18px; }
-    main { padding: 24px 14px 60px; }
-    .section { padding: 22px 18px; }
-  }
+@media(max-width:640px){
+  header{padding:18px 20px;}
+  .progress-strip{padding:10px 18px;}
+  main{padding:28px 14px 80px;}
+  .sec{padding:24px 18px;}
+  .spec-table{font-size:.78rem;}
+  .spec-table td,.spec-table th{padding:8px 10px;}
+}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- ══ HEADER ══ -->
 <header>
-  <div class="header-left">
-    <h1>🚀 Del Papel a la Pantalla</h1>
-    <p>Taller 2 · Prototipado Digital Web · Ficha 3140092 Noche · Inst. Juan Viveros</p>
+  <div class="h-left">
+    <div class="h-eyebrow">Taller 3 · Producción Multimedia Web</div>
+    <h1 class="h-title">Yo creo el contenido<br>de <span>mi sitio web.</span></h1>
+    <div class="h-meta">Ficha 3140092 · Noche · Inst. Juan Viveros · SENA Tolima</div>
   </div>
-  <span class="badge-sena">SENA · FICHA 3140092 · NOCHE</span>
+  <span class="h-badge">TECNÓLOGO<br>MULTIMEDIA</span>
 </header>
 
-<!-- XP BAR -->
-<div class="xp-bar-wrap">
-  <span class="level-badge" id="level-label">Nv. 1</span>
-  <span class="xp-label">XP</span>
-  <div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div>
-  <span class="xp-points" id="xp-points">0 / 500 XP</span>
-  <div class="trophy-strip">
-    <span class="trophy" id="t1" title="Explorador">🔍</span>
-    <span class="trophy" id="t2" title="Constructor">🛠️</span>
-    <span class="trophy" id="t3" title="Maestro del Quiz">🧠</span>
-    <span class="trophy" id="t4" title="Prototipador">🎨</span>
-    <span class="trophy" id="t5" title="Campeón">🏆</span>
+<!-- ══ PROGRESS BAR ══ -->
+<div class="progress-strip">
+  <span class="prog-level" id="lvl-label">Nv.1 · Asistente</span>
+  <span class="prog-label">XP</span>
+  <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+  <span class="prog-pts" id="prog-pts">0 / 700 XP</span>
+  <div class="medals-row">
+    <span class="medal" id="md1" title="Estratega">🗺️</span>
+    <span class="medal" id="md2" title="Identidad Visual">🎨</span>
+    <span class="medal" id="md3" title="Redactor">✍️</span>
+    <span class="medal" id="md4" title="Fotógrafo">📸</span>
+    <span class="medal" id="md5" title="Videógrafo">🎬</span>
+    <span class="medal" id="md6" title="Quiz Master">🧠</span>
+    <span class="medal" id="md7" title="Productor Completo">🚀</span>
   </div>
 </div>
 
 <main>
 
-  <!-- ── SECCIÓN 1: CONTEXTUALIZACIÓN ── -->
-  <div class="section s1">
-    <span class="section-tag tag-yellow">⚡ Punto de partida · +20 XP</span>
-    <h2>¿Dónde quedamos? 📋</h2>
-    <div class="recap">
-      <span class="recap-icon">✏️</span>
-      <p>En la sesión anterior ideamos nuestro <strong>Proyecto Formativo Web para MiPymes en el Tolima</strong>. Cada equipo dibujó a mano bocetos de las pantallas principales: portada, servicios, galería y contacto. ¡Esos bocetos son el mapa de nuestra próxima misión!</p>
-    </div>
-    <p>Hoy damos el salto: de esos trazos en papel vamos a construir un <strong>prototipo digital de alta fidelidad</strong> usando herramientas gratuitas. Al final de la sesión tendrás un prototipo navegable listo para presentar.</p>
+<!-- ══ SEC 0: INTRO ══ -->
+<div class="sec acc-orange">
+  <div class="sec-eyebrow">Sesión anterior → hoy <span class="xp-pill">+20 XP</span></div>
+  <h2>¿De dónde venimos y qué haremos hoy?</h2>
 
-    <hr class="divider">
-
-    <p><strong>Objetivo de aprendizaje:</strong> Digitalizar bocetos web usando herramientas de prototipado, aplicando principios de UX/UI y trabajo colaborativo.</p>
-
-    <button class="btn btn-primary" style="margin-top:18px" onclick="earnXP(20,'t1','🔍 ¡Explorador desbloqueado!')">
-      ✅ ¡Ya lo leí! Ganar 20 XP
-    </button>
+  <div class="callout callout-orange">
+    <span class="callout-icon">🗺️</span>
+    <p>En el <strong>Taller 1</strong> ideamos el proyecto formativo web. En el <strong>Taller 2</strong> creamos el prototipo digital navegable en Figma o Penpot. Hoy llenamos ese prototipo con contenido real: textos, imágenes, video, iconos, favicon, isologotipo y todo lo que necesita un sitio web profesional en 2025.</p>
   </div>
 
-  <!-- ── SECCIÓN 2: METODOLOGÍA ── -->
-  <div class="section s2">
-    <span class="section-tag tag-green">🎯 Metodología activa</span>
-    <h2>¿Cómo vamos a trabajar hoy?</h2>
-    <p>Esta sesión usa <strong>Aprendizaje Basado en Proyectos (ABP)</strong> combinado con elementos de <strong>gamificación</strong>. Cada actividad suma puntos de experiencia (XP) que acumulan logros desbloqueables.</p>
+  <p><strong>Objetivo:</strong> Como productor multimedia, serás capaz de generar, optimizar y organizar todos los activos de contenido (assets) necesarios para un sitio web responsivo (móvil + desktop), aplicando estándares de la industria.</p>
 
-    <div class="method-grid">
-      <div class="method-card">
-        <span class="m-icon">🧩</span>
-        <h4>ABP</h4>
-        <p>El prototipo de tu sitio web es el producto real de aprendizaje</p>
-      </div>
-      <div class="method-card">
-        <span class="m-icon">🤝</span>
-        <h4>Trabajo en pares</h4>
-        <p>Diseña con un compañero usando la técnica de <em>Driver / Navigator</em></p>
-      </div>
-      <div class="method-card">
-        <span class="m-icon">🔄</span>
-        <h4>Iteración rápida</h4>
-        <p>Construye → Muéstraselo al instructor → Ajusta en 5 min</p>
-      </div>
-      <div class="method-card">
-        <span class="m-icon">🏅</span>
-        <h4>Gamificación</h4>
-        <p>XP, niveles y logros por cada misión completada</p>
-      </div>
-      <div class="method-card">
-        <span class="m-icon">💬</span>
-        <h4>Feedback entre pares</h4>
-        <p>Cada equipo da 1 elogio + 1 sugerencia al equipo vecino</p>
-      </div>
-      <div class="method-card">
-        <span class="m-icon">⏱️</span>
-        <h4>Timeboxing</h4>
-        <p>Bloques de 15 minutos para mantener el ritmo y foco</p>
-      </div>
+  <hr class="div">
+  <p><strong>Duración estimada:</strong> 4 horas (puede dividirse en 2 sesiones de 2h). &nbsp;|&nbsp; <strong>Modalidad:</strong> Equipos de 2–3 personas.</p>
+
+  <button class="btn btn-orange" style="margin-top:18px" onclick="earn(20,'md1','🗺️ Estratega desbloqueado')">
+    ✅ Entendido · Ganar 20 XP
+  </button>
+</div>
+
+<!-- ══ SEC 1: INVENTARIO DE ASSETS ══ -->
+<div class="sec acc-teal">
+  <div class="sec-eyebrow">Inventario completo <span class="xp-pill">+30 XP</span></div>
+  <h2>¿Qué necesita un sitio web hoy? 📦</h2>
+  <p>Antes de producir, hacemos el <strong>inventario de activos</strong>. Haz clic en cada elemento conforme lo entiendas. Un productor multimedia profesional conoce todos estos componentes.</p>
+
+  <div class="inv-grid" id="inv-grid">
+    <!-- IDENTIDAD -->
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">🏷️ Isologotipo</div><div class="inv-sub">Logo + nombre de la marca</div></div>
+    </div>
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">🔷 Favicon</div><div class="inv-sub">Icono de pestaña del navegador</div></div>
+    </div>
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">🎨 Paleta de colores</div><div class="inv-sub">Primario, secundario, neutros</div></div>
+    </div>
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">🔤 Tipografía</div><div class="inv-sub">Display + body font (Google Fonts)</div></div>
+    </div>
+    <!-- TEXTO -->
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">📝 Textos (copy)</div><div class="inv-sub">Títulos, párrafos, CTAs</div></div>
+    </div>
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">🔍 Metaetiquetas SEO</div><div class="inv-sub">title, description, keywords</div></div>
+    </div>
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">📤 OG Tags</div><div class="inv-sub">Vista previa en redes sociales</div></div>
+    </div>
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">💬 Microcopy</div><div class="inv-sub">Textos de botones, errores, tooltips</div></div>
+    </div>
+    <!-- IMÁGENES -->
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">🖼️ Hero image</div><div class="inv-sub">Banner principal de la portada</div></div>
+    </div>
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">📷 Fotografías</div><div class="inv-sub">Producto, equipo, instalaciones</div></div>
+    </div>
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">🔣 Íconos</div><div class="inv-sub">SVG para servicios y UI</div></div>
+    </div>
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">🌄 OG Image</div><div class="inv-sub">1200×630 px para compartir</div></div>
+    </div>
+    <!-- VIDEO -->
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">▶️ Video hero</div><div class="inv-sub">Loop mudo de fondo o presentación</div></div>
+    </div>
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">🎞️ Videos de sección</div><div class="inv-sub">Servicios, testimonios, proceso</div></div>
+    </div>
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">🖼️ Thumbnails</div><div class="inv-sub">Portadas para videos</div></div>
+    </div>
+    <!-- TÉCNICO -->
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">📱 Manifest.json</div><div class="inv-sub">Para instalar como app (PWA)</div></div>
+    </div>
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">📐 Versiones responsivas</div><div class="inv-sub">Imágenes optimizadas por breakpoint</div></div>
+    </div>
+    <div class="inv-item" onclick="tickInv(this)">
+      <div class="inv-box"></div>
+      <div><div class="inv-label">⚡ Imágenes optimizadas</div><div class="inv-sub">WebP, compresión sin pérdida</div></div>
     </div>
   </div>
 
-  <!-- ── SECCIÓN 3: HERRAMIENTAS ── -->
-  <div class="section s3">
-    <span class="section-tag tag-blue">🛠️ Herramientas · +40 XP</span>
-    <h2>Apps gratuitas para prototipar 🎨</h2>
-    <p>No necesitas pagar nada. Estas herramientas tienen planes gratuitos robustos, ideales para aprender a prototipar:</p>
+  <p style="margin-top:14px;font-size:.82rem;color:var(--muted)">Haz clic en todos los ítems del inventario para ganar los puntos.</p>
+  <button class="btn btn-orange" style="margin-top:14px" onclick="checkInv()">
+    ✅ ¡Inventario completo! Ganar 30 XP
+  </button>
+</div>
 
-    <div class="tools-grid">
+<!-- ══ SEC 2: IDENTIDAD VISUAL ══ -->
+<div class="sec acc-sky">
+  <div class="sec-eyebrow">Módulo 1 · Identidad Visual <span class="xp-pill">+40 XP</span></div>
+  <h2>🏷️ Isologotipo, favicon y paleta</h2>
 
-      <div class="tool-card">
-        <span class="tool-free">FREE</span>
-        <span class="tool-icon">🎨</span>
-        <span class="tool-name">Figma</span>
-        <p class="tool-desc">La estándar de la industria. Colaboración en tiempo real, componentes y prototipos navegables.</p>
-        <a class="tool-link" href="https://figma.com" target="_blank">↗ figma.com</a>
-      </div>
-
-      <div class="tool-card">
-        <span class="tool-free">OPEN SOURCE</span>
-        <span class="tool-icon">🐧</span>
-        <span class="tool-name">Penpot</span>
-        <p class="tool-desc">Alternativa 100% de código abierto a Figma. Sin límite de proyectos. Ideal para el SENA.</p>
-        <a class="tool-link" href="https://penpot.app" target="_blank">↗ penpot.app</a>
-      </div>
-
-      <div class="tool-card">
-        <span class="tool-free">FREE</span>
-        <span class="tool-icon">✏️</span>
-        <span class="tool-name">Wireframe.cc</span>
-        <p class="tool-desc">Wireframes rápidos. Herramienta minimalista, perfecta para pasar el boceto de papel a digital en minutos.</p>
-        <a class="tool-link" href="https://wireframe.cc" target="_blank">↗ wireframe.cc</a>
-      </div>
-
-      <div class="tool-card">
-        <span class="tool-free">FREE</span>
-        <span class="tool-icon">🦄</span>
-        <span class="tool-name">Uizard</span>
-        <p class="tool-desc">¡Convierte fotos de bocetos en papel a prototipos digitales con IA!</p>
-        <a class="tool-link" href="https://uizard.io" target="_blank">↗ uizard.io</a>
-      </div>
-
-      <div class="tool-card">
-        <span class="tool-free">FREE</span>
-        <span class="tool-icon">🌟</span>
-        <span class="tool-name">Marvel App</span>
-        <p class="tool-desc">Prototipado súper rápido. Puedes tomar fotos de tus bocetos en papel y enlazarlos.</p>
-        <a class="tool-link" href="https://marvelapp.com" target="_blank">↗ marvelapp.com</a>
-      </div>
-
-      <div class="tool-card">
-        <span class="tool-free">FREE</span>
-        <span class="tool-icon">🎭</span>
-        <span class="tool-name">Canva (Whiteboards)</span>
-        <p class="tool-desc">Ya lo conocen. Los Whiteboards de Canva permiten organizar wireframes con arrastrar y soltar.</p>
-        <a class="tool-link" href="https://canva.com/whiteboards" target="_blank">↗ canva.com</a>
-      </div>
-
-    </div>
-
-    <div style="margin-top:22px; background:rgba(123,140,255,.08); border:1px solid rgba(123,140,255,.2); border-radius:12px; padding:16px 18px;">
-      <p style="font-size:.88rem; color:#c0c8e0;">
-        <strong style="color:var(--accent4)">🔑 Recomendación del instructor:</strong>
-        Comiencen con <strong>Wireframe.cc</strong> para digitalizar rápido sus bocetos (5 min), luego pasen a <strong>Figma o Penpot</strong> para agregar colores, tipografías y hacer el prototipo navegable.
-      </p>
-    </div>
-
-    <button class="btn btn-primary" style="margin-top:18px" onclick="earnXP(40,'t2','🛠️ ¡Constructor desbloqueado!')">
-      ✅ ¡Ya conozco las herramientas! Ganar 40 XP
-    </button>
+  <div class="callout callout-sky">
+    <span class="callout-icon">💡</span>
+    <p>Un <strong>isologotipo</strong> une el símbolo gráfico y el nombre de la marca en una sola pieza inseparable. El <strong>favicon</strong> es la versión mínima (16×16 a 512×512 px) que aparece en la pestaña del navegador, en marcadores y en la pantalla de inicio del móvil.</p>
   </div>
 
-  <!-- ── SECCIÓN 4: VIDEO + QUIZ ── -->
-  <div class="section s4">
-    <span class="section-tag tag-red">🎬 Video + Quiz · +100 XP</span>
-    <h2>Aprende viendo: ¿Qué es un prototipo? 📺</h2>
-    <p>Mira el siguiente video sobre fundamentos de prototipado y UX. Luego responde el quiz para demostrar lo que aprendiste y ganar XP.</p>
+  <table class="spec-table">
+    <thead>
+      <tr><th>Asset</th><th>Tamaño / Formato</th><th>Uso</th><th>Prioridad</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Logo SVG</strong></td><td>Vector (SVG) + PNG 512px</td><td>Encabezado, footer, documentos</td><td><span class="tag-req req-must">Esencial</span></td></tr>
+      <tr><td><strong>Favicon .ico</strong></td><td>16×16, 32×32, 48×48 px</td><td>Pestaña del navegador</td><td><span class="tag-req req-must">Esencial</span></td></tr>
+      <tr><td><strong>Apple Touch Icon</strong></td><td>180×180 px PNG</td><td>Icono al guardar en iPhone</td><td><span class="tag-req req-good">Recomendado</span></td></tr>
+      <tr><td><strong>PWA Icon</strong></td><td>192×192 + 512×512 PNG</td><td>Instalar como app Android</td><td><span class="tag-req req-good">Recomendado</span></td></tr>
+      <tr><td><strong>Logo dark/light</strong></td><td>Versión sobre fondo oscuro</td><td>Footer oscuro, modo noche</td><td><span class="tag-req req-nice">Bonus</span></td></tr>
+      <tr><td><strong>Paleta CSS</strong></td><td>Variables CSS (--color-primary…)</td><td>Todo el sitio</td><td><span class="tag-req req-must">Esencial</span></td></tr>
+    </tbody>
+  </table>
 
-    <div class="video-wrap">
-      <!-- Video YouTube en español sobre prototipado / UX / Figma -->
-      <iframe
-        src="https://www.youtube.com/embed/c9Wg6Cb_YlU?rel=0&modestbranding=1"
-        title="¿Qué es un prototipo web? UX/UI Básico"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-    </div>
-
-    <p style="font-size:.82rem; color:var(--muted); margin-bottom:6px;">
-      🎯 <em>Mira el video completo antes de responder el quiz. Recuerda: las respuestas están en el video.</em>
-    </p>
-    <p style="font-size:.82rem; margin-bottom:18px;">
-      ▶️ ¿No carga el video? Ábrelo directamente aquí:
-      <a href="https://www.youtube.com/watch?v=c9Wg6Cb_YlU" target="_blank"
-         style="color:var(--accent4); font-weight:600; text-decoration:none;">
-        youtube.com/watch?v=c9Wg6Cb_YlU ↗
-      </a>
-    </p>
-
-    <!-- QUIZ -->
-    <div class="quiz-container" id="quiz">
-
-      <!-- P1 -->
-      <div class="quiz-question" id="q1">
-        <span class="quiz-q-num">Pregunta 1 / 5</span>
-        <p class="quiz-q-text">¿Cuál es la principal diferencia entre un <em>wireframe</em> y un <em>prototipo</em>?</p>
-        <div class="quiz-options">
-          <button class="quiz-opt" onclick="answer(this,'q1','b')" data-val="a"><span class="opt-letter">A</span> El wireframe usa colores y el prototipo no</button>
-          <button class="quiz-opt" onclick="answer(this,'q1','b')" data-val="b"><span class="opt-letter">B</span> El wireframe es una estructura estática; el prototipo puede ser navegable e interactivo</button>
-          <button class="quiz-opt" onclick="answer(this,'q1','b')" data-val="c"><span class="opt-letter">C</span> Son exactamente lo mismo, solo cambia el nombre</button>
-          <button class="quiz-opt" onclick="answer(this,'q1','b')" data-val="d"><span class="opt-letter">D</span> El prototipo solo se hace en papel</button>
-        </div>
-        <div class="quiz-feedback" id="fb-q1"></div>
-      </div>
-
-      <!-- P2 -->
-      <div class="quiz-question" id="q2">
-        <span class="quiz-q-num">Pregunta 2 / 5</span>
-        <p class="quiz-q-text">¿Qué significa <strong>UX</strong> en el diseño web?</p>
-        <div class="quiz-options">
-          <button class="quiz-opt" onclick="answer(this,'q2','c')" data-val="a"><span class="opt-letter">A</span> Uniform eXperience</button>
-          <button class="quiz-opt" onclick="answer(this,'q2','c')" data-val="b"><span class="opt-letter">B</span> User eXtension</button>
-          <button class="quiz-opt" onclick="answer(this,'q2','c')" data-val="c"><span class="opt-letter">C</span> User eXperience (experiencia del usuario)</button>
-          <button class="quiz-opt" onclick="answer(this,'q2','c')" data-val="d"><span class="opt-letter">D</span> Universal eXchange</button>
-        </div>
-        <div class="quiz-feedback" id="fb-q2"></div>
-      </div>
-
-      <!-- P3 -->
-      <div class="quiz-question" id="q3">
-        <span class="quiz-q-num">Pregunta 3 / 5</span>
-        <p class="quiz-q-text">¿En qué fase del proceso de diseño se crea normalmente el prototipo?</p>
-        <div class="quiz-options">
-          <button class="quiz-opt" onclick="answer(this,'q3','b')" data-val="a"><span class="opt-letter">A</span> Antes de investigar al usuario</button>
-          <button class="quiz-opt" onclick="answer(this,'q3','b')" data-val="b"><span class="opt-letter">B</span> Después de definir la estructura y antes de desarrollar el código final</button>
-          <button class="quiz-opt" onclick="answer(this,'q3','b')" data-val="c"><span class="opt-letter">C</span> Cuando el sitio ya está 100% programado</button>
-          <button class="quiz-opt" onclick="answer(this,'q3','b')" data-val="d"><span class="opt-letter">D</span> Solo se hace cuando el cliente lo pide</button>
-        </div>
-        <div class="quiz-feedback" id="fb-q3"></div>
-      </div>
-
-      <!-- P4 -->
-      <div class="quiz-question" id="q4">
-        <span class="quiz-q-num">Pregunta 4 / 5</span>
-        <p class="quiz-q-text">¿Cuál herramienta permite convertir fotos de bocetos en papel directamente en prototipos digitales usando IA?</p>
-        <div class="quiz-options">
-          <button class="quiz-opt" onclick="answer(this,'q4','d')" data-val="a"><span class="opt-letter">A</span> Wireframe.cc</button>
-          <button class="quiz-opt" onclick="answer(this,'q4','d')" data-val="b"><span class="opt-letter">B</span> Canva</button>
-          <button class="quiz-opt" onclick="answer(this,'q4','d')" data-val="c"><span class="opt-letter">C</span> Penpot</button>
-          <button class="quiz-opt" onclick="answer(this,'q4','d')" data-val="d"><span class="opt-letter">D</span> Uizard</button>
-        </div>
-        <div class="quiz-feedback" id="fb-q4"></div>
-      </div>
-
-      <!-- P5 -->
-      <div class="quiz-question" id="q5">
-        <span class="quiz-q-num">Pregunta 5 / 5</span>
-        <p class="quiz-q-text">¿Por qué es importante hacer pruebas de usabilidad con el prototipo antes de programar?</p>
-        <div class="quiz-options">
-          <button class="quiz-opt" onclick="answer(this,'q5','a')" data-val="a"><span class="opt-letter">A</span> Para detectar errores de diseño temprano y ahorrar tiempo y dinero en desarrollo</button>
-          <button class="quiz-opt" onclick="answer(this,'q5','a')" data-val="b"><span class="opt-letter">B</span> Porque el cliente siempre sabe cómo programar</button>
-          <button class="quiz-opt" onclick="answer(this,'q5','a')" data-val="c"><span class="opt-letter">C</span> Solo se hacen pruebas cuando el sitio ya está publicado</button>
-          <button class="quiz-opt" onclick="answer(this,'q5','a')" data-val="d"><span class="opt-letter">D</span> Para cumplir un requisito burocrático del proyecto</button>
-        </div>
-        <div class="quiz-feedback" id="fb-q5"></div>
-      </div>
-
-      <div class="quiz-result" id="quiz-result">
-        <div class="score-big" id="quiz-score">0/5</div>
-        <p id="quiz-msg">Calculando resultado...</p>
-        <div class="xp-earned" id="quiz-xp"></div>
-        <button class="btn btn-ghost" style="margin-top:16px" onclick="resetQuiz()">🔄 Intentar de nuevo</button>
+  <div class="tools-wrap" style="margin-top:22px;">
+    <div>
+      <div class="tool-cat-title"><span>🎨</span>Herramientas de identidad visual</div>
+      <div class="tools-row">
+        <a class="tool-chip" href="https://looka.com" target="_blank"><span class="t-icon">🦁</span><span class="t-name">Looka</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://www.canva.com/logos" target="_blank"><span class="t-icon">🎭</span><span class="t-name">Canva Logos</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://hatchful.shopify.com" target="_blank"><span class="t-icon">🪄</span><span class="t-name">Hatchful</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://favicon.io" target="_blank"><span class="t-icon">🔷</span><span class="t-name">Favicon.io</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://realfavicongenerator.net" target="_blank"><span class="t-icon">⚙️</span><span class="t-name">Real Favicon Generator</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://coolors.co" target="_blank"><span class="t-icon">🌈</span><span class="t-name">Coolors</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://fonts.google.com" target="_blank"><span class="t-icon">🔤</span><span class="t-name">Google Fonts</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://inkscape.org" target="_blank"><span class="t-icon">🖊️</span><span class="t-name">Inkscape</span><span class="t-open">OPEN</span></a>
       </div>
     </div>
   </div>
 
-  <!-- ── SECCIÓN 5: MISIONES ── -->
-  <div class="section s5">
-    <span class="section-tag tag-green">🗺️ Misiones del taller · +300 XP</span>
-    <h2>Misiones: ¡manos a la obra! 🕹️</h2>
-    <p>Completa cada misión en orden. Haz clic cuando termines para ganar XP. El instructor validará cada entrega antes de avanzar.</p>
+  <hr class="div">
+  <p><strong>Código mínimo para el &lt;head&gt; del HTML:</strong></p>
+  <pre style="background:var(--ink);color:#e8e0d4;border-radius:4px;padding:16px;font-family:'Space Mono',monospace;font-size:.75rem;line-height:1.8;overflow-x:auto;margin-top:10px;">&lt;link rel="icon" type="image/x-icon" href="favicon.ico"&gt;
+&lt;link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"&gt;
+&lt;link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"&gt;
+&lt;link rel="manifest" href="site.webmanifest"&gt;
+&lt;meta name="theme-color" content="#e8541a"&gt;</pre>
 
-    <div class="mision-list">
+  <button class="btn btn-orange" style="margin-top:18px" onclick="earn(40,'md2','🎨 Identidad Visual desbloqueada')">
+    ✅ Módulo dominado · Ganar 40 XP
+  </button>
+</div>
 
-      <div class="mision" id="m1" onclick="completeMision('m1', 50, '¡Wireframe digital listo!')">
-        <div class="mision-check" id="mc1">○</div>
-        <div class="mision-num">01</div>
-        <div class="mision-body">
-          <h4>📸 Digitaliza tu boceto en papel</h4>
-          <p>Toma foto del boceto de la sesión anterior. Sube la imagen a <strong>Uizard</strong> o dibújalo en <strong>Wireframe.cc</strong>. Pon al menos 3 pantallas: Home, Servicios y Contacto.</p>
-        </div>
-        <span class="mision-xp">+50 XP</span>
+<!-- ══ SEC 3: CONTENIDO TEXTUAL ══ -->
+<div class="sec acc-gold">
+  <div class="sec-eyebrow">Módulo 2 · Textos & SEO <span class="xp-pill">+40 XP</span></div>
+  <h2>✍️ Copywriting, SEO y metaetiquetas</h2>
+
+  <div class="callout callout-gold">
+    <span class="callout-icon">📝</span>
+    <p>El texto web no es el mismo que el texto académico. Es <strong>escaneable, conciso y orientado a la acción</strong>. Cada palabra tiene un propósito: informar, convencer o llevar al usuario al siguiente paso.</p>
+  </div>
+
+  <table class="spec-table">
+    <thead>
+      <tr><th>Elemento</th><th>Especificación</th><th>Ejemplo</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>&lt;title&gt;</strong></td>
+        <td>50–60 caracteres</td>
+        <td><em>"Artesanías Tolima · Productos Artesanales Únicos"</em></td>
+      </tr>
+      <tr>
+        <td><strong>Meta description</strong></td>
+        <td>150–160 caracteres</td>
+        <td><em>"Descubre artesanías hechas a mano en el Tolima. Envíos a todo Colombia."</em></td>
+      </tr>
+      <tr>
+        <td><strong>H1 (título principal)</strong></td>
+        <td>1 por página, 20–70 caracteres</td>
+        <td><em>"Artesanías que cuentan historias"</em></td>
+      </tr>
+      <tr>
+        <td><strong>CTA (llamado a acción)</strong></td>
+        <td>Verbo + beneficio, máx. 5 palabras</td>
+        <td><em>"Ver catálogo", "Pedir cotización"</em></td>
+      </tr>
+      <tr>
+        <td><strong>Alt text imágenes</strong></td>
+        <td>Describir la imagen en ≤125 caracteres</td>
+        <td><em>"Mochila de fique tejida a mano, colores naranja y verde"</em></td>
+      </tr>
+      <tr>
+        <td><strong>OG: title + description</strong></td>
+        <td>Para vista previa en WhatsApp/redes</td>
+        <td><em>og:title, og:description, og:image</em></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="tools-wrap" style="margin-top:22px;">
+    <div>
+      <div class="tool-cat-title"><span>✍️</span>Herramientas de texto y SEO</div>
+      <div class="tools-row">
+        <a class="tool-chip" href="https://claude.ai" target="_blank"><span class="t-icon">🤖</span><span class="t-name">Claude AI (copy)</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://chatgpt.com" target="_blank"><span class="t-icon">💬</span><span class="t-name">ChatGPT</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://metatags.io" target="_blank"><span class="t-icon">🔍</span><span class="t-name">MetaTags.io</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://www.heymeta.com" target="_blank"><span class="t-icon">📤</span><span class="t-name">Hey Meta (OG tester)</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://wordcounter.net" target="_blank"><span class="t-icon">📏</span><span class="t-name">Word Counter</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://hemingwayapp.com" target="_blank"><span class="t-icon">📖</span><span class="t-name">Hemingway App</span><span class="t-free">FREE</span></a>
       </div>
-
-      <div class="mision" id="m2" onclick="completeMision('m2', 70, '¡Componentes creados!')">
-        <div class="mision-check" id="mc2">○</div>
-        <div class="mision-num">02</div>
-        <div class="mision-body">
-          <h4>🎨 Aplica la paleta de tu MiPyme</h4>
-          <p>Abre el proyecto en <strong>Figma o Penpot</strong>. Aplica la identidad visual de la empresa ficticia: paleta de colores, tipografía y logo básico.</p>
-        </div>
-        <span class="mision-xp">+70 XP</span>
-      </div>
-
-      <div class="mision" id="m3" onclick="completeMision('m3', 80, '¡Prototipo navegable!')">
-        <div class="mision-check" id="mc3">○</div>
-        <div class="mision-num">03</div>
-        <div class="mision-body">
-          <h4>🔗 Conecta las pantallas (prototype flow)</h4>
-          <p>En Figma/Penpot usa la herramienta <em>Prototype</em> para enlazar botones entre pantallas. El botón "Ver Servicios" debe navegar a la pantalla de servicios.</p>
-        </div>
-        <span class="mision-xp">+80 XP</span>
-      </div>
-
-      <div class="mision" id="m4" onclick="completeMision('m4', 60, '¡Feedback de pares completado!')">
-        <div class="mision-check" id="mc4">○</div>
-        <div class="mision-num">04</div>
-        <div class="mision-body">
-          <h4>👥 Revisión entre pares (Peer Review)</h4>
-          <p>Intercambia el enlace de tu prototipo con otro equipo. Dale <strong>1 comentario positivo</strong> y <strong>1 sugerencia de mejora</strong>. Regístralos en un Post-it digital (usa el whiteboard de Canva o Figma).</p>
-        </div>
-        <span class="mision-xp">+60 XP</span>
-      </div>
-
-      <div class="mision" id="m5" onclick="completeMision('m5', 90, '¡Presentación épica! 🏆')">
-        <div class="mision-check" id="mc5">○</div>
-        <div class="mision-num">05</div>
-        <div class="mision-body">
-          <h4>🎤 Pitch de 2 minutos</h4>
-          <p>Presenta el prototipo al grupo. Explica: ¿Qué servicio ofrece la MiPyme? ¿Qué pantallas tiene el sitio? ¿Por qué elegiste esa paleta de colores? Máximo 2 minutos por equipo.</p>
-        </div>
-        <span class="mision-xp">+90 XP</span>
-      </div>
-
-    </div>
-
-    <!-- ENTREGABLE -->
-    <div class="entregable">
-      <h4>📦 Entregable de la sesión</h4>
-      <ol>
-        <li>Enlace compartido del prototipo en Figma, Penpot o Marvel App (mínimo 3 pantallas navegables)</li>
-        <li>Captura de pantalla del wireframe inicial en Wireframe.cc o Uizard</li>
-        <li>Post-it digital con el feedback recibido del equipo par</li>
-        <li>Grabación del pitch de 2 minutos (opcional: usar la cámara del móvil)</li>
-      </ol>
     </div>
   </div>
+
+  <button class="btn btn-orange" style="margin-top:18px" onclick="earn(40,'md3','✍️ Redactor desbloqueado')">
+    ✅ Módulo dominado · Ganar 40 XP
+  </button>
+</div>
+
+<!-- ══ SEC 4: IMÁGENES ══ -->
+<div class="sec acc-coral">
+  <div class="sec-eyebrow">Módulo 3 · Contenido Visual <span class="xp-pill">+40 XP</span></div>
+  <h2>📸 Imágenes, banners e íconos</h2>
+
+  <div class="callout callout-orange">
+    <span class="callout-icon">⚠️</span>
+    <p><strong>¡Cuidado con el copyright!</strong> Nunca uses imágenes de Google directamente. Usa bancos de imágenes con licencia libre (CC0) o produce tus propias fotografías. Como productor multimedia, <strong>tú creas el contenido original.</strong></p>
+  </div>
+
+  <table class="spec-table">
+    <thead>
+      <tr><th>Asset</th><th>Tamaño recomendado</th><th>Formato</th><th>Peso máx.</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Hero / Banner desktop</strong></td><td>1920×1080 px</td><td>WebP / JPG</td><td>200 KB</td></tr>
+      <tr><td><strong>Hero / Banner móvil</strong></td><td>768×1024 px</td><td>WebP / JPG</td><td>100 KB</td></tr>
+      <tr><td><strong>Foto de producto/servicio</strong></td><td>800×800 px (cuadrada)</td><td>WebP / PNG</td><td>150 KB</td></tr>
+      <tr><td><strong>OG Image (redes sociales)</strong></td><td>1200×630 px</td><td>JPG / PNG</td><td>300 KB</td></tr>
+      <tr><td><strong>Íconos UI</strong></td><td>24×24, 48×48 px</td><td><strong>SVG</strong></td><td>~5 KB</td></tr>
+      <tr><td><strong>Foto de equipo / perfil</strong></td><td>400×400 px (circular)</td><td>WebP / JPG</td><td>80 KB</td></tr>
+      <tr><td><strong>Fondo de sección</strong></td><td>1440×800 px</td><td>WebP / JPG</td><td>120 KB</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tools-wrap" style="margin-top:22px;">
+    <div>
+      <div class="tool-cat-title"><span>🖼️</span>Banco de imágenes libres (CC0)</div>
+      <div class="tools-row">
+        <a class="tool-chip" href="https://unsplash.com" target="_blank"><span class="t-icon">📷</span><span class="t-name">Unsplash</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://www.pexels.com" target="_blank"><span class="t-icon">🏞️</span><span class="t-name">Pexels</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://pixabay.com" target="_blank"><span class="t-icon">🌅</span><span class="t-name">Pixabay</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://www.freepik.com" target="_blank"><span class="t-icon">🎨</span><span class="t-name">Freepik</span><span class="t-free">FREE</span></a>
+      </div>
+    </div>
+    <div>
+      <div class="tool-cat-title"><span>🔣</span>Íconos SVG gratuitos</div>
+      <div class="tools-row">
+        <a class="tool-chip" href="https://fontawesome.com" target="_blank"><span class="t-icon">⚡</span><span class="t-name">Font Awesome</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://phosphoricons.com" target="_blank"><span class="t-icon">✨</span><span class="t-name">Phosphor Icons</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://heroicons.com" target="_blank"><span class="t-icon">🦸</span><span class="t-name">Heroicons</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://www.flaticon.com" target="_blank"><span class="t-icon">🎯</span><span class="t-name">Flaticon</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://lucide.dev" target="_blank"><span class="t-icon">💎</span><span class="t-name">Lucide Icons</span><span class="t-open">OPEN</span></a>
+      </div>
+    </div>
+    <div>
+      <div class="tool-cat-title"><span>⚡</span>Edición y optimización de imágenes</div>
+      <div class="tools-row">
+        <a class="tool-chip" href="https://www.canva.com" target="_blank"><span class="t-icon">🎭</span><span class="t-name">Canva</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://squoosh.app" target="_blank"><span class="t-icon">🗜️</span><span class="t-name">Squoosh (optimizar)</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://tinypng.com" target="_blank"><span class="t-icon">🐼</span><span class="t-name">TinyPNG</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://remove.bg" target="_blank"><span class="t-icon">✂️</span><span class="t-name">Remove.bg</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://www.gimp.org" target="_blank"><span class="t-icon">🖌️</span><span class="t-name">GIMP</span><span class="t-open">OPEN</span></a>
+        <a class="tool-chip" href="https://www.photopea.com" target="_blank"><span class="t-icon">🖥️</span><span class="t-name">Photopea (web)</span><span class="t-free">FREE</span></a>
+      </div>
+    </div>
+    <div>
+      <div class="tool-cat-title"><span>🤖</span>Imágenes generadas con IA</div>
+      <div class="tools-row">
+        <a class="tool-chip" href="https://www.bing.com/images/create" target="_blank"><span class="t-icon">🔵</span><span class="t-name">Bing Image Creator</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://ideogram.ai" target="_blank"><span class="t-icon">🌀</span><span class="t-name">Ideogram</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://leonardo.ai" target="_blank"><span class="t-icon">🎨</span><span class="t-name">Leonardo AI</span><span class="t-free">FREE</span></a>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-orange" style="margin-top:18px" onclick="earn(40,'md4','📸 Fotógrafo desbloqueado')">
+    ✅ Módulo dominado · Ganar 40 XP
+  </button>
+</div>
+
+<!-- ══ SEC 5: VIDEO ══ -->
+<div class="sec acc-violet">
+  <div class="sec-eyebrow">Módulo 4 · Producción de Video <span class="xp-pill">+40 XP</span></div>
+  <h2>🎬 Video para web: formatos y especificaciones</h2>
+
+  <div class="callout callout-sky">
+    <span class="callout-icon">🎬</span>
+    <p>El video es el contenido de mayor impacto en una web. Un <strong>video hero</strong> de 15–30 segundos, sin audio y en loop, puede aumentar el tiempo de permanencia del usuario hasta un 80%. Pero si pesa demasiado, destruye la velocidad del sitio. El equilibrio es todo.</p>
+  </div>
+
+  <table class="spec-table">
+    <thead>
+      <tr><th>Tipo de video</th><th>Resolución</th><th>Formato</th><th>Duración</th><th>Peso máx.</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Hero loop (fondo)</strong></td><td>1920×1080 / 1280×720</td><td>MP4 H.264 + WebM</td><td>10–30 seg</td><td>8 MB</td></tr>
+      <tr><td><strong>Presentación empresa</strong></td><td>1920×1080</td><td>MP4 H.264</td><td>60–120 seg</td><td>50 MB</td></tr>
+      <tr><td><strong>Video de servicio</strong></td><td>1280×720</td><td>MP4 / YouTube embed</td><td>30–90 seg</td><td>30 MB</td></tr>
+      <tr><td><strong>Testimonio de cliente</strong></td><td>1280×720</td><td>MP4 / YouTube embed</td><td>30–60 seg</td><td>25 MB</td></tr>
+      <tr><td><strong>Thumbnail / portada</strong></td><td>1280×720 px</td><td>JPG / WebP</td><td>—</td><td>150 KB</td></tr>
+      <tr><td><strong>GIF / Lottie (animación)</strong></td><td>600×400 px</td><td>WebP animado / JSON</td><td>2–5 seg</td><td>500 KB</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tools-wrap" style="margin-top:22px;">
+    <div>
+      <div class="tool-cat-title"><span>🎬</span>Edición de video gratuita</div>
+      <div class="tools-row">
+        <a class="tool-chip" href="https://www.blackmagicdesign.com/products/davinciresolve" target="_blank"><span class="t-icon">🎥</span><span class="t-name">DaVinci Resolve</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://www.capcut.com" target="_blank"><span class="t-icon">✂️</span><span class="t-name">CapCut</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://clipchamp.com" target="_blank"><span class="t-icon">📽️</span><span class="t-name">Clipchamp</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://kdenlive.org" target="_blank"><span class="t-icon">🎞️</span><span class="t-name">Kdenlive</span><span class="t-open">OPEN</span></a>
+        <a class="tool-chip" href="https://www.canva.com/video-editor" target="_blank"><span class="t-icon">🎭</span><span class="t-name">Canva Video</span><span class="t-free">FREE</span></a>
+      </div>
+    </div>
+    <div>
+      <div class="tool-cat-title"><span>🗜️</span>Optimización y conversión de video</div>
+      <div class="tools-row">
+        <a class="tool-chip" href="https://www.handbrake.fr" target="_blank"><span class="t-icon">🔧</span><span class="t-name">HandBrake</span><span class="t-open">OPEN</span></a>
+        <a class="tool-chip" href="https://cloudconvert.com/mp4-to-webm" target="_blank"><span class="t-icon">☁️</span><span class="t-name">CloudConvert</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://ezgif.com" target="_blank"><span class="t-icon">🔄</span><span class="t-name">EZGif</span><span class="t-free">FREE</span></a>
+      </div>
+    </div>
+    <div>
+      <div class="tool-cat-title"><span>📡</span>Plataformas para alojar video</div>
+      <div class="tools-row">
+        <a class="tool-chip" href="https://youtube.com" target="_blank"><span class="t-icon">▶️</span><span class="t-name">YouTube (embed)</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://vimeo.com" target="_blank"><span class="t-icon">🎞️</span><span class="t-name">Vimeo</span><span class="t-free">FREE</span></a>
+        <a class="tool-chip" href="https://drive.google.com" target="_blank"><span class="t-icon">☁️</span><span class="t-name">Google Drive (embed)</span><span class="t-free">FREE</span></a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+  <p><strong>Código de video hero con fallback WebM + MP4:</strong></p>
+  <pre style="background:var(--ink);color:#e8e0d4;border-radius:4px;padding:16px;font-family:'Space Mono',monospace;font-size:.72rem;line-height:1.8;overflow-x:auto;margin-top:10px;">&lt;video autoplay muted loop playsinline poster="hero-poster.jpg"&gt;
+  &lt;source src="hero.webm" type="video/webm"&gt;
+  &lt;source src="hero.mp4"  type="video/mp4"&gt;
+&lt;/video&gt;</pre>
+
+  <button class="btn btn-orange" style="margin-top:18px" onclick="earn(40,'md5','🎬 Videógrafo desbloqueado')">
+    ✅ Módulo dominado · Ganar 40 XP
+  </button>
+</div>
+
+<!-- ══ SEC 6: VIDEO + QUIZ ══ -->
+<div class="sec acc-ink">
+  <div class="sec-eyebrow">Video tutorial + Quiz <span class="xp-pill">+100 XP</span></div>
+  <h2>🎬 Mira y demuestra lo aprendido</h2>
+  <p>Este video muestra cómo optimizar imágenes y videos para web: uno de los errores más comunes que arruina la velocidad de un sitio. Luego responde el quiz.</p>
+
+  <div class="video-frame">
+    <iframe
+      src="https://www.youtube.com/embed/FbcEMvkSqVQ?rel=0&modestbranding=1"
+      title="Optimización de imágenes y performance web"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+  <div class="vid-fallback">
+    ▶️ ¿No carga el video? Ábrelo en YouTube:
+    <a href="https://www.youtube.com/watch?v=FbcEMvkSqVQ" target="_blank">
+      youtube.com/watch?v=FbcEMvkSqVQ ↗
+    </a>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz">
+
+    <div class="quiz-q" id="q1">
+      <div class="q-meta">Pregunta 1 / 6</div>
+      <p class="q-text">¿Cuál es el formato de imagen más eficiente para la web en 2025?</p>
+      <div class="q-opts">
+        <button class="q-opt" onclick="qa(this,'q1','c')" data-v="a"><span class="q-letter">A</span> BMP, porque conserva toda la calidad</button>
+        <button class="q-opt" onclick="qa(this,'q1','c')" data-v="b"><span class="q-letter">B</span> PNG, porque es el más conocido</button>
+        <button class="q-opt" onclick="qa(this,'q1','c')" data-v="c"><span class="q-letter">C</span> WebP, porque ofrece la mejor compresión conservando calidad</button>
+        <button class="q-opt" onclick="qa(this,'q1','c')" data-v="d"><span class="q-letter">D</span> GIF, porque soporta animaciones</button>
+      </div>
+      <div class="q-fb" id="fb-q1"></div>
+    </div>
+
+    <div class="quiz-q" id="q2">
+      <div class="q-meta">Pregunta 2 / 6</div>
+      <p class="q-text">¿Qué tamaño debe tener la <strong>OG Image</strong> para verse bien al compartir en redes sociales?</p>
+      <div class="q-opts">
+        <button class="q-opt" onclick="qa(this,'q2','b')" data-v="a"><span class="q-letter">A</span> 800×600 px</button>
+        <button class="q-opt" onclick="qa(this,'q2','b')" data-v="b"><span class="q-letter">B</span> 1200×630 px</button>
+        <button class="q-opt" onclick="qa(this,'q2','b')" data-v="c"><span class="q-letter">C</span> 512×512 px</button>
+        <button class="q-opt" onclick="qa(this,'q2','b')" data-v="d"><span class="q-letter">D</span> 1920×1080 px</button>
+      </div>
+      <div class="q-fb" id="fb-q2"></div>
+    </div>
+
+    <div class="quiz-q" id="q3">
+      <div class="q-meta">Pregunta 3 / 6</div>
+      <p class="q-text">Un video hero de fondo en una web debe tener las siguientes características:</p>
+      <div class="q-opts">
+        <button class="q-opt" onclick="qa(this,'q3','d')" data-v="a"><span class="q-letter">A</span> Larga duración, con audio y alta resolución 4K</button>
+        <button class="q-opt" onclick="qa(this,'q3','d')" data-v="b"><span class="q-letter">B</span> Mínimo 5 minutos para dar contexto completo</button>
+        <button class="q-opt" onclick="qa(this,'q3','d')" data-v="c"><span class="q-letter">C</span> Solo disponible en formato AVI para máxima calidad</button>
+        <button class="q-opt" onclick="qa(this,'q3','d')" data-v="d"><span class="q-letter">D</span> Corto (10–30 s), sin audio (muted), en loop, MP4 + WebM</button>
+      </div>
+      <div class="q-fb" id="fb-q3"></div>
+    </div>
+
+    <div class="quiz-q" id="q4">
+      <div class="q-meta">Pregunta 4 / 6</div>
+      <p class="q-text">¿Cuál es la diferencia entre un <strong>logotipo</strong> y un <strong>isologotipo</strong>?</p>
+      <div class="q-opts">
+        <button class="q-opt" onclick="qa(this,'q4','a')" data-v="a"><span class="q-letter">A</span> El logotipo es solo texto; el isologotipo combina símbolo y nombre de forma inseparable</button>
+        <button class="q-opt" onclick="qa(this,'q4','a')" data-v="b"><span class="q-letter">B</span> El isologotipo se usa solo en papel; el logotipo solo en pantallas</button>
+        <button class="q-opt" onclick="qa(this,'q4','a')" data-v="c"><span class="q-letter">C</span> Son exactamente lo mismo</button>
+        <button class="q-opt" onclick="qa(this,'q4','a')" data-v="d"><span class="q-letter">D</span> El logotipo es animado y el isologotipo es estático</button>
+      </div>
+      <div class="q-fb" id="fb-q4"></div>
+    </div>
+
+    <div class="quiz-q" id="q5">
+      <div class="q-meta">Pregunta 5 / 6</div>
+      <p class="q-text">¿Por qué los íconos de interfaz web deben estar en formato <strong>SVG</strong> en lugar de PNG?</p>
+      <div class="q-opts">
+        <button class="q-opt" onclick="qa(this,'q5','c')" data-v="a"><span class="q-letter">A</span> Porque SVG es más colorido que PNG</button>
+        <button class="q-opt" onclick="qa(this,'q5','c')" data-v="b"><span class="q-letter">B</span> Porque los navegadores modernos no leen PNG</button>
+        <button class="q-opt" onclick="qa(this,'q5','c')" data-v="c"><span class="q-letter">C</span> Porque SVG es vectorial: escala sin perder calidad en cualquier resolución y pesa menos</button>
+        <button class="q-opt" onclick="qa(this,'q5','c')" data-v="d"><span class="q-letter">D</span> Porque SVG soporta audio integrado</button>
+      </div>
+      <div class="q-fb" id="fb-q5"></div>
+    </div>
+
+    <div class="quiz-q" id="q6">
+      <div class="q-meta">Pregunta 6 / 6</div>
+      <p class="q-text">¿Qué herramienta gratuita permite convertir y comprimir imágenes a WebP directamente en el navegador?</p>
+      <div class="q-opts">
+        <button class="q-opt" onclick="qa(this,'q6','b')" data-v="a"><span class="q-letter">A</span> Figma</button>
+        <button class="q-opt" onclick="qa(this,'q6','b')" data-v="b"><span class="q-letter">B</span> Squoosh.app</button>
+        <button class="q-opt" onclick="qa(this,'q6','b')" data-v="c"><span class="q-letter">C</span> Wireframe.cc</button>
+        <button class="q-opt" onclick="qa(this,'q6','b')" data-v="d"><span class="q-letter">D</span> Penpot</button>
+      </div>
+      <div class="q-fb" id="fb-q6"></div>
+    </div>
+
+    <div class="quiz-result" id="quiz-result">
+      <div class="quiz-score-big" id="q-score">0/6</div>
+      <p id="q-msg">Calculando resultado...</p>
+      <div class="quiz-xp-earned" id="q-xp"></div>
+      <button class="btn btn-ghost" style="margin-top:16px" onclick="resetQ()">🔄 Intentar de nuevo</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SEC 7: MISIONES ══ -->
+<div class="sec acc-teal">
+  <div class="sec-eyebrow">Misiones del taller <span class="xp-pill">+390 XP disponibles</span></div>
+  <h2>🕹️ Misiones de producción — ¡manos a la obra!</h2>
+  <p>Cada equipo produce los activos reales para su sitio web de MiPyme. El instructor valida cada entrega antes de marcar la misión como completada.</p>
+
+  <div class="missions">
+
+    <div class="mission" id="ms1" onclick="completeMis('ms1',50,'🏷️ Identidad visual creada')">
+      <div class="m-check" id="mc1">○</div>
+      <div class="mission-num">01</div>
+      <div class="mission-body">
+        <h4>🏷️ Crea el isologotipo y el favicon</h4>
+        <p>Diseña el isologotipo de la MiPyme en Canva, Looka o Inkscape. Expórtalo en SVG y PNG. Genera el favicon con favicon.io en los 4 tamaños requeridos. Adjunta todos los archivos en una carpeta <code>/brand/</code>.</p>
+      </div>
+      <div class="mission-right">
+        <span class="m-xp">+50 XP</span>
+        <span class="m-time">⏱ 25 min</span>
+      </div>
+    </div>
+
+    <div class="mission" id="ms2" onclick="completeMis('ms2',60,'🎨 Paleta y tipografía definidas')">
+      <div class="m-check" id="mc2">○</div>
+      <div class="mission-num">02</div>
+      <div class="mission-body">
+        <h4>🎨 Define la paleta y la tipografía</h4>
+        <p>Crea la paleta de 5 colores en Coolors (primario, secundario, acento, fondo, neutro). Elige 2 fuentes de Google Fonts. Crea un archivo <code>style-guide.css</code> con las variables CSS <code>--color-primary</code>, <code>--font-display</code>, etc.</p>
+      </div>
+      <div class="mission-right">
+        <span class="m-xp">+60 XP</span>
+        <span class="m-time">⏱ 20 min</span>
+      </div>
+    </div>
+
+    <div class="mission" id="ms3" onclick="completeMis('ms3',70,'✍️ Textos y SEO listos')">
+      <div class="m-check" id="mc3">○</div>
+      <div class="mission-num">03</div>
+      <div class="mission-body">
+        <h4>✍️ Redacta todos los textos del sitio</h4>
+        <p>Escribe: título (H1), subtítulo, descripción de 3 servicios, textos de botones (CTAs), meta title (60 char), meta description (155 char) y alt text de todas las imágenes. Puedes usar IA para el borrador, pero ajusta con la voz de la marca.</p>
+      </div>
+      <div class="mission-right">
+        <span class="m-xp">+70 XP</span>
+        <span class="m-time">⏱ 30 min</span>
+      </div>
+    </div>
+
+    <div class="mission" id="ms4" onclick="completeMis('ms4',80,'📸 Imágenes producidas y optimizadas')">
+      <div class="m-check" id="mc4">○</div>
+      <div class="mission-num">04</div>
+      <div class="mission-body">
+        <h4>📸 Produce y optimiza las imágenes</h4>
+        <p>Crea o selecciona: 1 hero banner (1920×1080), 3 fotos de servicios (800×800), 1 OG Image (1200×630), mínimo 5 íconos SVG. Comprime todo con Squoosh a WebP. Peso total: máximo 1.5 MB para todas las imágenes juntas.</p>
+      </div>
+      <div class="mission-right">
+        <span class="m-xp">+80 XP</span>
+        <span class="m-time">⏱ 40 min</span>
+      </div>
+    </div>
+
+    <div class="mission" id="ms5" onclick="completeMis('ms5',80,'🎬 Video producido')">
+      <div class="m-check" id="mc5">○</div>
+      <div class="mission-num">05</div>
+      <div class="mission-body">
+        <h4>🎬 Produce el video de presentación</h4>
+        <p>Graba o monta un video de 60–90 segundos presentando la MiPyme. Edítalo en CapCut o DaVinci. Expórtalo en MP4 1280×720. Sube a YouTube y copia el embed. Opcional: crea además un loop de 15 seg mudo para el hero.</p>
+      </div>
+      <div class="mission-right">
+        <span class="m-xp">+80 XP</span>
+        <span class="m-time">⏱ 45 min</span>
+      </div>
+    </div>
+
+    <div class="mission" id="ms6" onclick="completeMis('ms6',50,'📱 Versión móvil adaptada')">
+      <div class="m-check" id="mc6">○</div>
+      <div class="mission-num">06</div>
+      <div class="mission-body">
+        <h4>📱 Adapta el contenido para móvil</h4>
+        <p>Crea versiones móviles del hero banner (768×1024) y verifica que los textos sean legibles en pantalla pequeña. Usa Chrome DevTools (F12 → modo móvil) para revisar. Documenta en una captura de pantalla comparativa desktop vs. móvil.</p>
+      </div>
+      <div class="mission-right">
+        <span class="m-xp">+50 XP</span>
+        <span class="m-time">⏱ 20 min</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ENTREGABLE -->
+  <div class="deliverable">
+    <h4>📦 Entregable final de la sesión</h4>
+    <ol>
+      <li><strong>Carpeta /brand/</strong> — Logo SVG, PNG 512px, favicon.ico, apple-touch-icon.png, favicon 32×32</li>
+      <li><strong>style-guide.css</strong> — Variables de colores, fuentes Google Fonts importadas</li>
+      <li><strong>Carpeta /images/</strong> — Hero desktop + móvil (WebP), 3 fotos de servicios (WebP), OG Image, 5+ íconos SVG</li>
+      <li><strong>Carpeta /video/</strong> — Video MP4 + link de YouTube embed + thumbnail JPG</li>
+      <li><strong>textos.md</strong> — Todos los textos del sitio: H1, subtítulo, servicios, CTAs, meta title, meta description, alt texts</li>
+      <li><strong>Captura comparativa</strong> desktop vs. móvil del prototipo actualizado en Figma/Penpot</li>
+    </ol>
+  </div>
+</div>
 
 </main>
 
 <!-- TOAST -->
-<div id="toast">
-  <span id="toast-icon">🎉</span>
-  <span id="toast-text">¡Logro desbloqueado!</span>
-</div>
+<div id="toast"><span id="ti">🎉</span><span id="tt">¡Logro desbloqueado!</span></div>
 
 <footer>
-  SENA · Centro de Industria y Construcción · Regional Tolima · Tecnólogo en Producción de Multimedia · Ficha 3140092 Noche · Instructor: Juan Viveros
+  SENA · Centro de Industria y Construcción · Regional Tolima · Tecnólogo en Producción de Multimedia<br>
+  Ficha 3140092 · Noche · Instructor: Juan Viveros · Taller 3 — Producción de Contenidos Web
 </footer>
 
 <script>
 // ── GAME STATE ──
 let xp = 0;
-const XP_MAX = 500;
-const levels = [
-  { min: 0,   label: 'Nv. 1 · Aprendiz' },
-  { min: 100, label: 'Nv. 2 · Wireframer' },
-  { min: 200, label: 'Nv. 3 · Diseñador' },
-  { min: 350, label: 'Nv. 4 · Prototipador' },
-  { min: 450, label: 'Nv. 5 · Experto UX' },
+const XP_MAX = 700;
+const LEVELS = [
+  {min:0,   label:'Nv.1 · Asistente'},
+  {min:100, label:'Nv.2 · Creador'},
+  {min:200, label:'Nv.3 · Diseñador'},
+  {min:350, label:'Nv.4 · Productor'},
+  {min:500, label:'Nv.5 · Multimedia Pro'},
+  {min:650, label:'Nv.6 · Experto Web'},
 ];
-const singleUse = new Set();
+const used = new Set();
 
-function earnXP(amount, trophyId, trophyMsg) {
-  if (singleUse.has(trophyId || amount)) return;
-  if (trophyId) singleUse.add(trophyId);
-
+function earn(amount, medalId, msg) {
+  const key = medalId || ('xp_'+amount+'_'+msg);
+  if (used.has(key)) return;
+  used.add(key);
   xp = Math.min(xp + amount, XP_MAX);
-  updateXPBar();
-  if (trophyId) {
-    unlockTrophy(trophyId, trophyMsg);
-  } else {
-    showToast('⚡', `+${amount} XP ganados`);
-  }
+  updateBar();
+  if (medalId) { const m = document.getElementById(medalId); if(m) m.classList.add('on'); }
+  toast('🏅', msg || `+${amount} XP`);
 }
 
-function updateXPBar() {
+function updateBar() {
   const pct = (xp / XP_MAX) * 100;
-  document.getElementById('xp-fill').style.width = pct + '%';
-  document.getElementById('xp-points').textContent = `${xp} / ${XP_MAX} XP`;
-  const lv = [...levels].reverse().find(l => xp >= l.min);
-  document.getElementById('level-label').textContent = lv.label;
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-pts').textContent = `${xp} / ${XP_MAX} XP`;
+  const lv = [...LEVELS].reverse().find(l => xp >= l.min);
+  document.getElementById('lvl-label').textContent = lv.label;
 }
 
-function unlockTrophy(id, msg) {
-  const el = document.getElementById(id);
-  if (el) el.classList.add('earned');
-  showToast('🏅', msg || '¡Logro desbloqueado!');
-}
-
-function showToast(icon, text) {
+function toast(icon, text) {
   const t = document.getElementById('toast');
-  document.getElementById('toast-icon').textContent = icon;
-  document.getElementById('toast-text').textContent = text;
+  document.getElementById('ti').textContent = icon;
+  document.getElementById('tt').textContent = text;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => t.classList.remove('show'), 3200);
 }
 
-// ── MISIONES ──
-const misionDone = {};
-function completeMision(id, xpVal, msg) {
-  if (misionDone[id]) return;
-  misionDone[id] = true;
+// ── INVENTORY ──
+function tickInv(el) {
+  el.classList.toggle('ticked');
+  const b = el.querySelector('.inv-box');
+  b.textContent = el.classList.contains('ticked') ? '✓' : '';
+}
+function checkInv() {
+  if (used.has('inv')) { toast('ℹ️','Ya ganaste estos puntos'); return; }
+  const all = document.querySelectorAll('.inv-item').length;
+  const ticked = document.querySelectorAll('.inv-item.ticked').length;
+  if (ticked < all * .7) { toast('⚠️','Marca al menos el 70% del inventario'); return; }
+  earn(30,'md1','🗺️ Inventario dominado');
+  used.add('inv');
+}
+
+// ── MISSIONS ──
+const mDone = {};
+function completeMis(id, xpv, msg) {
+  if (mDone[id]) return;
+  mDone[id] = true;
   const el = document.getElementById(id);
   el.classList.add('done');
-  const mc = document.getElementById('mc' + id.replace('m',''));
-  mc.textContent = '✓';
-  earnXP(xpVal, null, null);
-  xp -= xpVal; // re-add via earnXP path
-  xp = Math.min(xp + xpVal, XP_MAX);
-  updateXPBar();
-  showToast('✅', `+${xpVal} XP · ${msg}`);
-  if (Object.keys(misionDone).length === 5) {
-    setTimeout(() => unlockTrophy('t4', '🎨 ¡Prototipador desbloqueado!'), 400);
-    setTimeout(() => unlockTrophy('t5', '🏆 ¡Campeón desbloqueado!'), 1200);
-  }
+  const num = id.replace('ms','');
+  document.getElementById('mc'+num).textContent = '✓';
+  xp = Math.min(xp + xpv, XP_MAX);
+  updateBar();
+  toast('✅', `+${xpv} XP · ${msg}`);
+  const total = Object.keys(mDone).length;
+  if (total === 6) setTimeout(() => earn(0,'md7','🚀 Productor Completo desbloqueado'), 600);
 }
 
 // ── QUIZ ──
-const quizAnswers = { q1:'b', q2:'c', q3:'b', q4:'d', q5:'a' };
-const quizState = {};
-const feedbacks = {
-  q1: {
-    ok: '✅ ¡Correcto! El wireframe muestra estructura y layout sin color ni contenido real. El prototipo agrega interactividad.',
-    ko: '❌ No del todo. El wireframe es un esquema estático de la estructura; el prototipo permite simular la navegación.'
-  },
-  q2: {
-    ok: '✅ ¡Exacto! UX = User Experience. Se enfoca en cómo se siente el usuario al interactuar con el producto.',
-    ko: '❌ UX significa User Experience (experiencia del usuario), la disciplina que diseña cómo se siente usar un producto.'
-  },
-  q3: {
-    ok: '✅ ¡Perfecto! El prototipo se crea luego de definir la arquitectura de información y antes de escribir código.',
-    ko: '❌ El prototipo va después de planear la estructura del sitio pero ANTES de programar, para validar con usuarios.'
-  },
-  q4: {
-    ok: '✅ ¡Correcto! Uizard tiene una función de IA que convierte fotos de bocetos en papel a wireframes digitales automáticamente.',
-    ko: '❌ Es Uizard. Tiene una función de IA llamada "Autodesigner" que convierte fotos de bocetos en prototipos digitales.'
-  },
-  q5: {
-    ok: '✅ ¡Exacto! Probar antes de programar detecta problemas de UX cuando aún son baratos de corregir.',
-    ko: '❌ La razón principal es detectar problemas de diseño ANTES de invertir tiempo en programación, ahorrando costos.'
-  }
+const qCorrect = {q1:'c',q2:'b',q3:'d',q4:'a',q5:'c',q6:'b'};
+const qFb = {
+  q1:{ok:'✅ ¡Correcto! WebP ofrece hasta un 30% menos de peso que JPG con calidad equivalente.',ko:'❌ El formato más eficiente para web hoy es WebP. JPG y PNG siguen siendo útiles como fallback.'},
+  q2:{ok:'✅ ¡Perfecto! 1200×630 px es el estándar de Open Graph para previsualizaciones en redes sociales.',ko:'❌ La OG Image debe ser 1200×630 px. Este tamaño asegura una buena vista en WhatsApp, Facebook y LinkedIn.'},
+  q3:{ok:'✅ ¡Exacto! Corto, mudo, en loop, MP4+WebM es la fórmula para un hero video que no destruya la carga de la web.',ko:'❌ Un video hero debe ser corto (10–30s), sin audio (muted), en loop y en formato MP4 + WebM para compatibilidad.'},
+  q4:{ok:'✅ ¡Correcto! El logotipo es tipográfico puro; el isologotipo fusiona símbolo y nombre de forma inseparable.',ko:'❌ Logotipo = solo texto. Isologotipo = símbolo + nombre, inseparables. Son dos piezas de identidad diferentes.'},
+  q5:{ok:'✅ ¡Perfecto! SVG es vectorial: escala a cualquier tamaño sin pixelarse y pesa muy poco.',ko:'❌ SVG es vectorial, escala sin pérdida de calidad en cualquier resolución de pantalla y tiene muy poco peso.'},
+  q6:{ok:'✅ ¡Correcto! Squoosh.app es la herramienta de Google para comprimir y convertir imágenes directamente en el navegador.',ko:'❌ Es Squoosh.app (de Google). Permite comprimir y convertir imágenes a WebP sin instalar nada.'},
 };
+const qState = {};
+let qXP = 0;
 
-let quizXP = 0;
-
-function answer(btn, qId, correct) {
-  if (quizState[qId]) return;
-  quizState[qId] = true;
-
-  const val = btn.dataset.val;
-  const isCorrect = (val === correct);
-  const opts = btn.closest('.quiz-options').querySelectorAll('.quiz-opt');
+function qa(btn, qId, correct) {
+  if (qState[qId]) return;
+  qState[qId] = true;
+  const val = btn.dataset.v;
+  const isOk = val === correct;
+  const opts = btn.closest('.q-opts').querySelectorAll('.q-opt');
   opts.forEach(o => {
     o.disabled = true;
-    if (o.dataset.val === correct) o.classList.add('correct');
+    if (o.dataset.v === correct) o.classList.add('ok');
   });
-  if (!isCorrect) btn.classList.add('wrong');
-
-  const fb = document.getElementById('fb-' + qId);
-  fb.textContent = feedbacks[qId][isCorrect ? 'ok' : 'ko'];
-  fb.className = 'quiz-feedback show ' + (isCorrect ? 'ok' : 'ko');
+  if (!isOk) btn.classList.add('ko');
+  const fb = document.getElementById('fb-'+qId);
+  fb.textContent = qFb[qId][isOk ? 'ok' : 'ko'];
+  fb.className = 'q-fb show ' + (isOk ? 'ok' : 'ko');
   document.getElementById(qId).classList.add('answered');
-
-  if (isCorrect) quizXP += 20;
-
-  if (Object.keys(quizState).length === 5) {
-    showQuizResult();
-  }
+  if (isOk) qXP += 16;
+  if (Object.keys(qState).length === 6) showQResult();
 }
 
-function showQuizResult() {
-  const correct = quizXP / 20;
-  const total = 5;
-  const pct = Math.round((correct / total) * 100);
-  document.getElementById('quiz-score').textContent = correct + '/' + total;
-  let msg = '';
-  if (pct === 100) msg = '🏆 ¡Perfecto! Eres un crack del UX.';
-  else if (pct >= 60) msg = '💪 ¡Buen trabajo! Sigue practicando.';
-  else msg = '📚 Revisa el video y vuelve a intentarlo.';
-  document.getElementById('quiz-msg').textContent = msg;
-  const bonusXP = correct >= 4 ? 100 : correct >= 3 ? 70 : 40;
-  document.getElementById('quiz-xp').textContent = `+${bonusXP} XP ganados`;
+function showQResult() {
+  const correct = Math.round(qXP / 16);
+  document.getElementById('q-score').textContent = correct + '/6';
+  const msgs = ['📚 Revisa los módulos e intenta de nuevo.','💪 Buen comienzo, sigue repasando.','👍 Sólido. ¡Vas por buen camino!','🎯 ¡Muy bien! Casi perfecto.','🏆 ¡Perfecto! Eres un productor multimedia completo.'];
+  document.getElementById('q-msg').textContent = msgs[Math.min(correct-2, 4)] || msgs[0];
+  const bonus = correct >= 5 ? 100 : correct >= 4 ? 70 : correct >= 3 ? 50 : 30;
+  document.getElementById('q-xp').textContent = `+${bonus} XP ganados`;
   document.getElementById('quiz-result').classList.add('show');
-  earnXP(bonusXP, 't3', '🧠 ¡Maestro del Quiz desbloqueado!');
+  earn(bonus, 'md6', '🧠 Quiz Master desbloqueado');
 }
 
-function resetQuiz() {
-  Object.keys(quizState).forEach(k => delete quizState[k]);
-  quizXP = 0;
-  document.querySelectorAll('.quiz-question').forEach(q => {
+function resetQ() {
+  Object.keys(qState).forEach(k => delete qState[k]);
+  qXP = 0;
+  document.querySelectorAll('.quiz-q').forEach(q => {
     q.classList.remove('answered');
-    q.querySelectorAll('.quiz-opt').forEach(o => {
-      o.disabled = false;
-      o.classList.remove('correct','wrong');
-    });
-    q.querySelector('.quiz-feedback').className = 'quiz-feedback';
+    q.querySelectorAll('.q-opt').forEach(o => { o.disabled=false; o.classList.remove('ok','ko'); });
+    const fb = q.querySelector('.q-fb');
+    fb.className = 'q-fb';
   });
   document.getElementById('quiz-result').classList.remove('show');
 }
 
-updateXPBar();
+updateBar();
 </script>
 </body>
 </html>
